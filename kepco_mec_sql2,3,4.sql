@@ -3,8 +3,8 @@ CREATE TABLE stat (
 	situation VARCHAR(20) NOT NULL COMMENT "상태"
 ) COMMENT "충전기상태";
 
-CREATE TABLE chgerType (
-	chgetType VARCHAR(10) PRIMARY KEY COMMENT "충전기타입",
+CREATE TABLE chger_type (
+	chget_type VARCHAR(10) PRIMARY KEY COMMENT "충전기타입",
 	type VARCHAR(20) NOT NULL COMMENT "타입"
 ) COMMENT "충전기타입";
 
@@ -20,15 +20,15 @@ INSERT INTO stat VALUES(3,"충전중");
 INSERT INTO stat VALUES(4,"운영중지");
 INSERT INTO stat VALUES(5,"점검중");
 
-INSERT INTO chgerType VALUES("01","DC차데모");
-INSERT INTO chgerType VALUES("02","AC완속");
-INSERT INTO chgerType VALUES("03","DC차데모+AC3상");
-INSERT INTO chgerType VALUES("04","DC콤보");
-INSERT INTO chgerType VALUES("05","DC차데모+DC콤보");
-INSERT INTO chgerType VALUES("06","DC차데모+AC3상+DC콤보");
-INSERT INTO chgerType VALUES("07","AC3상");
-INSERT INTO chgerType VALUES("08","DC콤보(완속)");
-INSERT INTO chgerType VALUES("89","H2");
+INSERT INTO chger_type VALUES("01","DC차데모");
+INSERT INTO chger_type VALUES("02","AC완속");
+INSERT INTO chger_type VALUES("03","DC차데모+AC3상");
+INSERT INTO chger_type VALUES("04","DC콤보");
+INSERT INTO chger_type VALUES("05","DC차데모+DC콤보");
+INSERT INTO chger_type VALUES("06","DC차데모+AC3상+DC콤보");
+INSERT INTO chger_type VALUES("07","AC3상");
+INSERT INTO chger_type VALUES("08","DC콤보(완속)");
+INSERT INTO chger_type VALUES("89","H2");
 
 INSERT INTO zcode VALUES("11","서울특별시");
 INSERT INTO zcode VALUES("26","부산광역시");
