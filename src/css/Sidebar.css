@@ -1,0 +1,105 @@
+nav{
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+.bi.bi-person-circle,.bi.bi-search,.bi.bi-power {
+    position: relative;
+    display: table-cell;
+    width: 60px;
+    height: 36px;
+    text-align: center;
+}
+
+
+.main-menu:hover,nav.main-menu.expanded {
+    width:300px;
+    transition: 0.15s;
+}
+
+.main-menu {
+    background:#212121;
+    position:absolute;
+    top:0;
+    bottom:0;
+    height:100%;
+    left:0;
+    width:60px;
+    overflow:hidden;
+    transition: 0.15s;
+}
+
+.main-menu>ul {
+    margin:10px 0;
+}
+
+.main-menu li {
+    position:relative;
+    display:block;
+    width:300px;
+    cursor: pointer;
+}
+
+.icon_wrapper{
+    width:240px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-menu>ul.logout {
+    position:absolute;
+    left:0;
+    bottom:0;
+}
+
+.no-touch .scrollable.hover {
+    overflow-y:hidden;
+}
+
+.no-touch .scrollable.hover:hover {
+    overflow-y:auto;
+    overflow:visible;
+}
+
+nav ul,nav li {
+    outline:0;
+    margin:0;
+    padding:0;
+}
+.main-menu li:hover>div,nav.main-menu li.active>div,.dropdown-menu>li>div:hover,.dropdown-menu>li>div:focus,.dropdown-menu>.active>div,.dropdown-menu>.active>div:hover,.dropdown-menu>.active>div:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover div,.dashboard-page nav.dashboard-menu ul li.active div {
+    color:#fff;
+    background-color:#000000;
+    transition: 1.4s;
+}
+.sidebar_account,.sidebar_search{
+    margin-top: 20px;
+}
+.sidebar_wrapper{
+    display: flex;
+    color:#999;
+    align-items: center;
+    width: 300px;
+}
+.down_icon{
+    margin-right: 30px;
+}
+
+
+.sidebar_myaccount > *{
+    display: none;
+}
+.sidebar_mysearch > *{
+    display: none;
+}
+
+.login_result,.search_result{
+    width: 300px;
+    /* display: flex; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
