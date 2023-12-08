@@ -10,5 +10,5 @@ import com.example.kepco_mec_springboot.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,String> {
     List<User> findByUserIdAndUserPassword(String userId,String userPassword);
-    User findByUserId(String userId);
+    List<User> findByUserId(String userId);
 }

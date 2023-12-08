@@ -7,5 +7,5 @@ import com.example.kepco_mec_springboot.model.ApplyCharge;
 
 @Repository
 public interface ApplyChargeRepository extends JpaRepository<ApplyCharge,Integer> {
-
+    
 }
