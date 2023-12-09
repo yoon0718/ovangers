@@ -1,16 +1,15 @@
 // import { Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 import '../css/App.css'
-import Login from './Login';
+import Login_modal from './Login_modal';
 import Sidebar from './Sidebar';
-import SignUp from './SignUp';
+
 function App(){
+    const [loginSwitch,setLoginSwitch] = useState();
     return(
         <div>
-            <Sidebar/>
-            <div className='test'>
-                <Login/>
-                <SignUp/>
-            </div>
+            <Sidebar setLoginSwitch={setLoginSwitch}/>
+            <Login_modal loginSwitch={loginSwitch} setLoginSwitch={setLoginSwitch}/>
         </div>
     )
 }

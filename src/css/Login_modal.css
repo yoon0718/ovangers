@@ -1,0 +1,23 @@
+.login_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25vw;
+    height: 40vh;
+}
+.log_form{
+    display: flex;
+    flex-direction: column;
+}
+.log_form > *{
+    font-size: 20px;
+}
+.pwfind{
+    margin-top: 10px;
+}
+input{
+    margin-bottom:5px;
+}
+.signup, .login_button{
+    cursor: pointer;
+}
