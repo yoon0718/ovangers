@@ -17,7 +17,7 @@ public class ApplyCharge {
 
     @ManyToOne
     @JoinColumn(name = "stchId")
-    private User stchId;
+    private ChargerMap stchId;
 
     @ManyToOne
     @JoinColumn(name = "userId")

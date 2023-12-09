@@ -23,15 +23,17 @@ public class AccountController {
         @RequestParam("userNickname") String userNickname,
         @RequestParam("userTelephone") String userTelephone
     ) {
-        User userInfo = new User();
-        userInfo.setUserId(userId);
-        userInfo.setUserPassword(userPassword);
-        userInfo.setUserEmail(userEmail);
-        userInfo.setUserTelephone(userTelephone);
-        userInfo.setUserNickname(userNickname);
-        userInfo.setUserPoint(0);
-        userInfo.setManagerCheck("U");
-        userRepository.save(userInfo);
+        if (userId != "") {
+            User userInfo = new User();
+            userInfo.setUserId(userId);
+            userInfo.setUserPassword(userPassword);
+            userInfo.setUserEmail(userEmail);
+            userInfo.setUserTelephone(userTelephone);
+            userInfo.setUserNickname(userNickname);
+            userInfo.setUserPoint(0);
+            userInfo.setManagerCheck("N");
+            userRepository.save(userInfo);
+        }
 
         return "회원가입 성공";
     }

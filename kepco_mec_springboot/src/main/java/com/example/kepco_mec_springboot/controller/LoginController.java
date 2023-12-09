@@ -1,6 +1,7 @@
 package com.example.kepco_mec_springboot.controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,16 +19,25 @@ public class LoginController {
     UserRepository userRepository;
 
     @PostMapping("/api/login")
-    public String login(
+    public List<User> login(
         @RequestParam("userId") String userId,
         @RequestParam("userPassword") String userPassword
     ) {
+        List<User> info = new ArrayList<>();
         List<User> loginInfo = userRepository.findByUserIdAndUserPassword(userId,userPassword);
         if (loginInfo.size() > 0) {
-            return "로그인 성공";
+            User userInfo = new User();
+            userInfo.setUserId(userRepository.findByUserId(userId).get(0).getUserId());
+            userInfo.setUserEmail(userRepository.findByUserId(userId).get(0).getUserEmail());
+            userInfo.setUserNickname(userRepository.findByUserId(userId).get(0).getUserNickname());
+            userInfo.setUserTelephone(userRepository.findByUserId(userId).get(0).getUserTelephone());
+            userInfo.setUserPoint(userRepository.findByUserId(userId).get(0).getUserPoint());
+            userInfo.setManagerCheck(userRepository.findByUserId(userId).get(0).getManagerCheck());
+            info.add(userInfo);
+            return info;
         }
         else {
-            return "로그인 실패 | 아이디와 비밀번호를 다시 입력해주세요";
+            return info;
         }
     }
 }

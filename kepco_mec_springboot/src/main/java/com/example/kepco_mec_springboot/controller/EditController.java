@@ -3,6 +3,7 @@ package com.example.kepco_mec_springboot.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class EditController {
     UserRepository userRepository;
 
     // 회원 정보 수정
-    @PutMapping("/api/account")
+    @PutMapping("/api/account/{userId}")
     public String updateAccount(
         @RequestParam("userId") String userId,
         @RequestParam("userPassword") String userPassword,
@@ -42,8 +43,8 @@ public class EditController {
     }
 
     // 회원 탈퇴
-    @DeleteMapping("/api/account")
-    public String deleteAccount(@RequestParam("userId") String userId) {
+    @DeleteMapping("/api/account/{userId}")
+    public String deleteAccount(@PathVariable String userId) {
         userRepository.deleteById(userId);
         return "회원 정보 삭제 성공";
     }
