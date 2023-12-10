@@ -33,26 +33,30 @@ function KakaoMap() {
       },
     ];
 
-    let imageSrc =
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
     for (var i = 0; i < positions.length; i++) {
-      // 마커 이미지의 이미지 크기
-      var imageSize = new kakao.maps.Size(24, 35);
-
-      // 마커 이미지를 생성
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
       // 마커를 생성
       let marker = new kakao.maps.Marker({
         map: map, // 마커를 표시할 지도
         position: positions[i].latlng, // 마커를 표시할 위치
         title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시
-        image: markerImage, // 마커 이미지
         clickable: true,
       });
       let iwContent =
-          '<div style="padding:5px;">Hello World! <br><a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+          '<div class="wrap" style="color:red;">' +
+          '    <div class="info">' +
+          '        <div class="title">' +
+          "            카카오 스페이스닷원" +
+          '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+          "        </div>" +
+          '        <div class="body">' +
+          '            <div class="desc">' +
+          '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' +
+          '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' +
+          "                <br>" +
+          "            </div>" +
+          "        </div>" +
+          "    </div>" +
+          "</div>",
         iwPosition = positions[i].latlng,
         iwRemoveable = true; //인포윈도우 표시 위치
       // 인포윈도우를 생성
