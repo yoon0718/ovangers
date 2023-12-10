@@ -18,6 +18,24 @@
 input{
     margin-bottom:5px;
 }
-.signup, .login_button{
+.signup, .findpw{
+    cursor: pointer;
+}
+.login_wrapper{
+    width:13vw;
+    display: flex;
+    justify-content: center;
+    background-color: lightgray;
+    cursor: pointer;
+}
+.pwfind{
+    width: 13vw;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+.bi.bi-x{
+    position:relative;
+    left: 24vw;
     cursor: pointer;
 }

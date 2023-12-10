@@ -1,15 +1,16 @@
-.sign_div{
+.find_div{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 40vw;
     height: 60vh;
 }
-.sign_form{
+.find_form{
     display: flex;
     flex-direction: column;
 }
-.sign_form > *{
+.find_form > *{
     font-size: 20px;
 }
 .bi.bi-x-lg{
