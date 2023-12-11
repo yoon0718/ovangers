@@ -72,23 +72,29 @@ function Login_modal(props){
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x" viewBox="0 0 14 14" onClick={() => props.setLoginSwitch(false)}>
                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
             </svg>
-            <div className="login_div">
-                <form className="log_form">
-                    <h3>Log-In</h3>
-                    ID<input id="login_id" type="text" name="id" placeholder="아이디"></input>
-                    Password<input id="login_password" type="password" name="password" placeholder="비밀번호"></input>
-                    <br/>
-                    <div className="login_wrapper" onClick={()=>{login_session();}}>
-                        <a className="login_button">로그인</a>
-                    </div>
+            <div className="wrapper">
+                <div className="form-box">
+                        <div className="form-value">
+                        <form className="log_form">
+                            <h2>Login</h2>
+                            <div className="inputbox">
+                                <input id="login_id" type="text" name="id" placeholder="아이디"></input>
+                            </div>
+                            <div className="inputbox">
+                                <input id="login_password" type="password" name="password" placeholder="비밀번호"></input>
+                            </div>
+                            <div className="login_wrapper" onClick={()=>{login_session();}}>
+                                <a className="login_button">로그인</a>
+                            </div>
 
-                    <div className="pwfind">
-                        <a className="signup" onClick={()=>{setSignUpSwitch(true);}}>회원가입</a>
-                        <a>/</a>
-                        <a className="findpw" onClick={()=>{setFindPwSwitch(true);}}>비밀번호 찾기</a>
-                    </div>
-                </form>
- 
+                            <div className="pwfind">
+                                <a className="signup" onClick={()=>{setSignUpSwitch(true);}}>회원가입</a>
+                                <a>/</a>
+                                <a className="findpw" onClick={()=>{setFindPwSwitch(true);}}>비밀번호 찾기</a>
+                            </div>
+                        </form>
+                        </div>
+                </div>
             </div>
             <Signup_Modal signupSwitch={signupSwitch} setSignUpSwitch={setSignUpSwitch}/>
             <Findpw_modal findpwSwitch={findpwSwitch} setFindPwSwitch={setFindPwSwitch}/>

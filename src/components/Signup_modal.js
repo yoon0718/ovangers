@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import '../css/Signup_modal.css';
 import ReactModal from 'react-modal';
 function Signup_Modal(props) {
@@ -46,20 +47,22 @@ function Signup_Modal(props) {
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16" onClick={() => props.setSignUpSwitch(false)}>
                 <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
             </svg>
-            <div className="sign_div">
-                <form className="sign_form">
-                    <label>ID</label>
-                    <input id='sign_id' type="text" name="id" placeholder="아이디"></input>
-                    <label>Password</label>
-                    <input id='sign_pw' type="password" name="password" placeholder="비밀번호"></input>
-                    <label>Email</label>
-                    <input id='sign_email' type="text" name="email" placeholder="aaa@aaa.com"></input>
-                    <label>NickName</label>
-                    <input id='sign_nickname' type='text' name="nickname" placeholder='ex)박xx'></input>
-                    <label>Phone Number</label>
-                    <input id='sign_phone' type="text" name="phone" placeholder="010-xxxx-xxxx"></input>
-                    <input type="submit" value="제출" onClick={(e) => {e.preventDefault();  send_signup();}}></input>
-                </form>
+            <div className="form-box1">
+                <div className="sign_div">
+                    <form className="sign_form">
+                        <label>ID</label>
+                        <input id='sign_id' type="text" name="id" placeholder="아이디"></input>
+                        <label>Password</label>
+                        <input id='sign_pw' type="password" name="password" placeholder="비밀번호"></input>
+                        <label>Email</label>
+                        <input id='sign_email' type="text" name="email" placeholder="aaa@aaa.com"></input>
+                        <label>NickName</label>
+                        <input id='sign_nickname' type='text' name="nickname" placeholder='ex)박xx'></input>
+                        <label>Phone Number</label>
+                        <input id='sign_phone' type="text" name="phone" placeholder="010-xxxx-xxxx"></input>
+                        <button className='sign_btn' type="submit" onClick={(e) => {e.preventDefault();  send_signup();}}>회원가입</button>
+                    </form>
+                </div>
             </div>
         </ReactModal>
     )
