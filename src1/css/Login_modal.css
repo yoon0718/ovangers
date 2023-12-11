@@ -1,0 +1,41 @@
+.login_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25vw;
+    height: 40vh;
+}
+.log_form{
+    display: flex;
+    flex-direction: column;
+}
+.log_form > *{
+    font-size: 20px;
+}
+.pwfind{
+    margin-top: 10px;
+}
+input{
+    margin-bottom:5px;
+}
+.signup, .findpw{
+    cursor: pointer;
+}
+.login_wrapper{
+    width:13vw;
+    display: flex;
+    justify-content: center;
+    background-color: lightgray;
+    cursor: pointer;
+}
+.pwfind{
+    width: 13vw;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+.bi.bi-x{
+    position:relative;
+    left: 24vw;
+    cursor: pointer;
+}

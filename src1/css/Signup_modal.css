@@ -1,0 +1,19 @@
+.sign_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40vw;
+    height: 60vh;
+}
+.sign_form{
+    display: flex;
+    flex-direction: column;
+}
+.sign_form > *{
+    font-size: 20px;
+}
+.bi.bi-x-lg{
+    position:relative;
+    left: 39.2vw;
+    cursor: pointer;
+}
