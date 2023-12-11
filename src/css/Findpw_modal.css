@@ -1,4 +1,4 @@
-.find_div{
+.find_div,.change_div{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,11 +6,11 @@
     width: 40vw;
     height: 60vh;
 }
-.find_form{
+.find_form, .change_form{
     display: flex;
     flex-direction: column;
 }
-.find_form > *{
+.find_form > * ,.change_form > *{
     font-size: 20px;
 }
 .bi.bi-x-lg{
