@@ -5,6 +5,7 @@ function KakaoMap() {
   let [state, setState] = useState({
     center: { lat: 33.452613, lng: 126.570888 },
   });
+  let [map, setMap] = useState(null);
 
   useEffect(() => {
     let container = document.getElementById("map");
@@ -12,8 +13,8 @@ function KakaoMap() {
       center: new kakao.maps.LatLng(state.center.lat, state.center.lng),
       level: 3,
     };
-    let map = new kakao.maps.Map(container, options);
-
+    let newMap = new kakao.maps.Map(container, options);
+    setMap(newMap);
     let positions = [
       {
         title: "카카오",
@@ -32,6 +33,24 @@ function KakaoMap() {
         latlng: new kakao.maps.LatLng(33.451393, 126.570738),
       },
     ];
+    // // 선을 구성하는 좌표 배열입니다. 이 좌표들을 이어서 선을 표시합니다
+    // var linePath1 = [
+    //   new kakao.maps.LatLng(33.452344169439975, 126.56878163224233),
+    //   new kakao.maps.LatLng(33.452739313807456, 126.5709308145358),
+    //   new kakao.maps.LatLng(33.45178067090639, 126.5726886938753),
+    // ];
+
+    // // 지도에 표시할 선을 생성합니다
+    // var polyline = new kakao.maps.Polyline({
+    //   path: linePath1, // 선을 구성하는 좌표배열 입니다
+    //   strokeWeight: 5, // 선의 두께 입니다
+    //   strokeColor: "#FFAE00", // 선의 색깔입니다
+    //   strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+    //   strokeStyle: "solid", // 선의 스타일입니다
+    // });
+
+    // // 지도에 선을 표시합니다
+    // polyline.setMap(map);
 
     for (var i = 0; i < positions.length; i++) {
       // 마커를 생성
@@ -68,15 +87,34 @@ function KakaoMap() {
       // 마커에 클릭이벤트를 등록합니다
       kakao.maps.event.addListener(marker, "click", function () {
         // 마커 위에 인포윈도우를 표시합니다
-        infowindow.open(map, marker);
+        infowindow.open(newMap, marker);
       });
-      marker.setMap(map);
+      marker.setMap(newMap);
     }
   }, [state.center.lat, state.center.lng]);
+  function test() {
+    // 선을 구성하는 좌표 배열입니다. 이 좌표들을 이어서 선을 표시합니다
+    var linePath1 = [
+      new kakao.maps.LatLng(33.452344169439975, 126.56878163224233),
+      new kakao.maps.LatLng(33.452739313807456, 126.5709308145358),
+      new kakao.maps.LatLng(33.45178067090639, 126.5726886938753),
+    ];
+    // 지도에 표시할 선을 생성합니다
+    var polyline = new kakao.maps.Polyline({
+      path: linePath1, // 선을 구성하는 좌표배열 입니다
+      strokeWeight: 5, // 선의 두께 입니다
+      strokeColor: "#FFAE00", // 선의 색깔입니다
+      strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+      strokeStyle: "solid", // 선의 스타일입니다
+    });
 
+    // 지도에 선을 표시합니다
+    polyline.setMap(map);
+  }
   return (
     <div>
       <div id="map" style={{ width: "800px", height: "800px" }}></div>
+      <button onClick={() => test()}>이간 된다고..?</button>
     </div>
   );
 }
