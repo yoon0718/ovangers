@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins',sans-serif;
+}
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    /* background: linear-gradient(140deg,rgb(17,118,233)20%,rgb(245, 78, 36)); */
+    background-position: center;
+    background-size: cover;
+    background-color: rgba(0,0,0,0.2);
+}
+.form-box{
+    position: relative;
+    width: 380px;
+    height: 400px;
+    background-color: white;
+    /* background: transparent;  투명하게*/
+    /* backdrop-filter: blur(50px); */
+    border: 3px solid black;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 15px 15px 17px rgba(0,0,0,0.5);
+}h2{
+    font-size: 2em;
+    color: black;
+    text-align: center;
+}
+.inputbox{
+    position: relative;
+    margin: 10px 0;
+    width: 310px;
+    border-bottom: 2px solid black;
+}
+/* .inputbox label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: black;
+    font-size: 1em;
+    pointer-events: none;
+    transition: .5s;
+} */
+.inputbox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding:0 35px 0 5px;
+    color: black;
+}
+button{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: rgb(31, 130, 243);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    margin-top: 20px;
+    color: white;
+}
+button:hover{
+    background: rgb(15, 106, 211);
+}
+.pwfind{
+    font-size: .9em;
+    color: black;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+.sign_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+.sign_form{
+    display: flex;
+    flex-direction: column;
+}
+.sign_form input{
+    border-radius: 5px;
+    width: 250px;
+    height: 30px;
+    background: transparent;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+.sign_btn{
+    margin-top: 10px;
+}
+input{
+    margin-bottom:5px;
+}
+
+
+.top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.container {
+    display: flex;
+    margin-top: 30px;
+    height: 550px
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    padding: 20px;
+}
+
+.content {
+    margin-right: 10px;
+    border: 1px solid white;
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.content h2 {
+    margin-top: 0;
+}
+.sidebar button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid white;
+    border-radius: 4px;
+    background-color: white
+}
+.charge {
+    margin-top: 300px;
+}
