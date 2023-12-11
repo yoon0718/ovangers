@@ -27,12 +27,12 @@ public class LoginController {
         List<User> loginInfo = userRepository.findByUserIdAndUserPassword(userId,userPassword);
         if (loginInfo.size() > 0) {
             User userInfo = new User();
-            userInfo.setUserId(userRepository.findByUserId(userId).get(0).getUserId());
-            userInfo.setUserEmail(userRepository.findByUserId(userId).get(0).getUserEmail());
-            userInfo.setUserNickname(userRepository.findByUserId(userId).get(0).getUserNickname());
-            userInfo.setUserTelephone(userRepository.findByUserId(userId).get(0).getUserTelephone());
-            userInfo.setUserPoint(userRepository.findByUserId(userId).get(0).getUserPoint());
-            userInfo.setManagerCheck(userRepository.findByUserId(userId).get(0).getManagerCheck());
+            userInfo.setUserId(userRepository.findByUserId(userId).getUserId());
+            userInfo.setUserEmail(userRepository.findByUserId(userId).getUserEmail());
+            userInfo.setUserNickname(userRepository.findByUserId(userId).getUserNickname());
+            userInfo.setUserTelephone(userRepository.findByUserId(userId).getUserTelephone());
+            userInfo.setUserPoint(userRepository.findByUserId(userId).getUserPoint());
+            userInfo.setManagerCheck(userRepository.findByUserId(userId).getManagerCheck());
             info.add(userInfo);
             return info;
         }
