@@ -9,6 +9,12 @@ import KakaoMap from './KakaoMap';
 function App(){
     const [loginSwitch,setLoginSwitch] = useState();
     const [accountSwitch,setAccountSwitch] = useState();
+    const [userLat,setUserLat] = useState(34.452613);
+    const [userLng,setUserLng] = useState(126.570888);
+    let [pointObj, setPointObj] = useState({
+        startPoint: { marker: null, lat: null, lng: null },
+        endPoint: { marker: null, lat: null, lng: null },
+      });
 
     useEffect(()=>{
         setTimeout(()=>{
@@ -24,10 +30,11 @@ function App(){
                 <Splashscreen/>
             </div>
             <div>
-                <Sidebar setLoginSwitch={setLoginSwitch} setAccountSwitch={setAccountSwitch}/>
+                <Sidebar userLat={userLat} userLng={userLng} setLoginSwitch={setLoginSwitch} setAccountSwitch={setAccountSwitch}/>
                 <Login_modal loginSwitch={loginSwitch} setLoginSwitch={setLoginSwitch}/>
                 <Myaccount_modal accountSwitch={accountSwitch} setAccountSwitch={setAccountSwitch}/>
-                <KakaoMap/>
+                <KakaoMap userLat={userLat} userLng={userLng} pointObj={pointObj}
+                    setUserLat={setUserLat} setUserLng={setUserLng} setPointObj={setPointObj}/>
             </div>
         </div>
     )

@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 const {kakao} = window;
-function KakaoMap(){
-  const [userLat, setLat] = useState(34.452613);
-  const [userLng, setLng] = useState(126.570888);
+function KakaoMap(props){
   const [chargerData,setChargerData] = useState([]);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [mapCenter, setMapCenter] = useState("user");
-  let [pointObj, setPointObj] = useState({
-    startPoint: { marker: null, lat: null, lng: null },
-    endPoint: { marker: null, lat: null, lng: null },
-  });
+  const [chargerDetail, setChargerDetail]=useState([]);
 
-  const getChargerData = async (bounds) =>{ // 충전소 정보 받기
+  const getChargerLocationData = async (bounds) =>{ // 충전소 정보 받기
     if (bounds != null) {
       let latStart = bounds.qa;
       let latEnd = bounds.pa;
@@ -25,11 +20,26 @@ function KakaoMap(){
       setChargerData(response);
     }
   }
+
+  const getChargerData = async (bounds) =>{ // 충전기 정보 받기
+    if (bounds != null) {
+      let latStart = bounds.qa;
+      let latEnd = bounds.pa;
+      let lngStart = bounds.ha;
+      let lngEnd = bounds.oa;
+      let url = `http://10.10.21.64:8080/api/finds?lat_start=${latStart}&lat_end=${latEnd}&lng_start=${lngStart}&lng_end=${lngEnd}`;
+      const request = await fetch(url);
+      const response = await request.json();
+      setChargerDetail(response);
+    }
+  }
+
+  console.log("돌아간다")
     
   const createMap = () => {  //지도 생성
     let container = document.getElementById("map");
     let options = {
-      center: new kakao.maps.LatLng(userLat, userLng),
+      center: new kakao.maps.LatLng(props.userLat, props.userLng),
       level: 3
     };
     let map = new kakao.maps.Map(container,options);
@@ -40,15 +50,14 @@ function KakaoMap(){
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     kakao.maps.event.addListener(map,"dragstart",()=>{markers.forEach(marker=>{marker.setMap(null)})})
     kakao.maps.event.addListener(map,"idle",()=>{
+      getChargerLocationData(map.getBounds());
       getChargerData(map.getBounds());
       setMapCenter("free");
     })
   }
 
-    
-
   const createMarker = () => {  // 충전소 마커 및 인포윈도우 생성
-    chargerData.forEach((charger) => {
+    chargerDetail.forEach((charger) => {
       var marker = new kakao.maps.Marker({
         map:map, 
         position: new kakao.maps.LatLng(charger.lat, charger.lng),
@@ -56,7 +65,7 @@ function KakaoMap(){
         clickable: true,
       });
       let iwContent =
-        '<div class="infoWrap" style="color:red;">' +
+        '<div class="wrap">' +
         '    <div class="info">' +
         '        <div class="title">' +
                     charger.statNm +
@@ -68,6 +77,7 @@ function KakaoMap(){
         '                <div class="ellipsis">'+charger.useTime+'</div>' +
         '                <div class="ellipsis">'+charger.busiNm+ " " +charger.busiCall +'</div>' +
         '                <div class="ellipsis">'+charger.limitDetail+'</div>' +
+        '                <div class="ellipsis"><button type="button">신고하기</button><button type="button">길찾기</button></div>'+
         "                <br>" +
         "            </div>" +
         "        </div>" +
@@ -80,9 +90,8 @@ function KakaoMap(){
         content: iwContent,
         removable: iwRemoveable,
       });
-        kakao.maps.event.addListener(marker, "click", function () {
-        infowindow.open(map, marker);
-      });
+      kakao.maps.event.addListener(marker, "click", function () {infowindow.open(map, marker);});
+      
       markers.push(marker);
     })
   }
@@ -94,27 +103,29 @@ function KakaoMap(){
   if (map == null) {console.log("지도 로딩중")} // GeoLocation
   else if (!navigator.geolocation){console.log("현재 위치정보를 찾을 수 없습니다")}
   else {
-    navigator.geolocation.getCurrentPosition((position) => {setLat(position.coords.latitude);setLng(position.coords.longitude);})
+    navigator.geolocation.getCurrentPosition((position) => {props.setUserLat(position.coords.latitude); props.setUserLng(position.coords.longitude);})
     var marker = new kakao.maps.Marker({ //내 위치 마커
       map:map,
       image: new kakao.maps.MarkerImage("https://static-00.iconduck.com/assets.00/map-marker-icon-342x512-gd1hf1rz.png",new kakao.maps.Size(29,42)),
-      position: new kakao.maps.LatLng(userLat, userLng)
+      position: new kakao.maps.LatLng(props.userLat, props.userLng)
     }); 
     markers.push(marker)
-    if(mapCenter === "user"){map.setCenter(new kakao.maps.LatLng(userLat,userLng))}
+    if(mapCenter === "user"){map.setCenter(new kakao.maps.LatLng(props.userLat,props.userLng))}
   }
 
   if (map != null && chargerData.length > 1500){console.log("충전소가 너무 많아요");} // 충전소 개수제한
   else if (map != null) {createMarker();}
 
   function setPoint({ lat, lng }, pointType) { // 길찾기 마커
-    let marker = new kakao.maps.Marker({
-      map:map,
-      position: new kakao.maps.LatLng(lat, lng),
-    });
+    if (pointType !== "startPoint"){
+      let marker = new kakao.maps.Marker({
+        map:map,
+        position: new kakao.maps.LatLng(lat, lng),
+      });
+    }
     
-    setPointObj((prev) => {
-      if (pointObj[pointType].marker !== null) {
+    props.setPointObj((prev) => {
+      if (props.pointObj[pointType].marker !== null) {
         prev[pointType].marker.setMap(null);
       }
       return { ...prev, [pointType]: { marker, lat, lng } };
@@ -136,16 +147,16 @@ function KakaoMap(){
     return distance;
   }
 
-  function deg2rad(deg) { //거리계산용 도구
+  function deg2rad(deg) {
     return deg * (Math.PI / 180);
   }
 
-  async function getCarDirection() { //길찾기
+  async function getCarDirection() {
     let REST_API_KEY = "개인API";
     let url = "https://apis-navi.kakaomobility.com/v1/directions";
 
-    let origin = `${pointObj.startPoint.lng},${pointObj.startPoint.lat}`;
-    let destination = `${pointObj.endPoint.lng},${pointObj.endPoint.lat}`;
+    let origin = `${props.pointObj.startPoint.lng},${props.pointObj.startPoint.lat}`;
+    let destination = `${props.pointObj.endPoint.lng},${props.pointObj.endPoint.lat}`;
 
     let headers = {
       Authorization: `KakaoAK ${REST_API_KEY}`,
@@ -183,7 +194,7 @@ function KakaoMap(){
               )
             );
             lineLatLng.push(router.vertexes[index + 1], router.vertexes[index]);
-            if (lineLatLng.length == 4) {
+            if (lineLatLng.length === 4) {
               let dist = distance(
                 lineLatLng[0],
                 lineLatLng[1],
@@ -225,15 +236,10 @@ function KakaoMap(){
       <div id="map" style={{width:'100vw',height:'97vh', zIndex:0}}></div>
       <button type="button" onClick={()=>{setMapCenter("user");}}>내 위치로</button>
       <button
-        onClick={() =>
-          setPoint({ lat: 36.18420278, lng: 127.1009111 }, "startPoint")
-        }
-        >
-        출발지1 지정
-      </button>
-      <button
-        onClick={() =>
-            setPoint({ lat: 36.00568611, lng: 129.3616667 }, "endPoint")
+        onClick={() =>{
+            setPoint({ lat: props.userLat, lng: props.userLng }, "startPoint");
+            setPoint({ lat: 36.00568611, lng: 129.3616667 }, "endPoint");
+          }
         }
         >
         목적지1 설정
@@ -242,5 +248,7 @@ function KakaoMap(){
     </div>
   );
 }
+
+
 
 export default KakaoMap;

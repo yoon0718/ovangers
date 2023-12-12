@@ -48,6 +48,17 @@ function Myaccount_modal(props){
     const response = await ajax.text();
     alert(response)
   }
+  let delete_account = async() => {
+    if(window.confirm("회원탈퇴 하시겠습니까?")){
+    const url = "http://10.10.21.64:8080/api/account/"+window.sessionStorage.userId
+    const ajax = await fetch(url,{method:"Delete"});
+    const response = await ajax.text();
+    alert(response);
+    window.sessionStorage.clear();
+    window.location.href="/";
+    }
+  }
+
 
   return(
     <ReactModal isOpen={props.accountSwitch} style={modal_style} ariaHideApp={false}>
@@ -57,6 +68,7 @@ function Myaccount_modal(props){
                 <input id="userTelephone" onChange={e=>{set_my_telephone(e.target.value); window.sessionStorage.setItem("userTelephone",e.target.value)}}></input><br/>
                 <input id="userNickname" onChange={e=>{set_my_nickname(e.target.value); window.sessionStorage.setItem("userNickname",e.target.value)}}></input><br/>
                 <input type="submit" onClick={(e)=>{e.preventDefault(); props.setAccountSwitch(false); update_account();}}></input>
+                <input type="submit" value={"회원탈퇴"} onClick={(e)=>{e.preventDefault(); delete_account();}}></input>
             </form>
         </div>
     </ReactModal>
