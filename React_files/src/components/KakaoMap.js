@@ -95,7 +95,11 @@ function KakaoMap(){
   else if (!navigator.geolocation){console.log("현재 위치정보를 찾을 수 없습니다")}
   else {
     navigator.geolocation.getCurrentPosition((position) => {setLat(position.coords.latitude);setLng(position.coords.longitude);})
-    var marker = new kakao.maps.Marker({map:map, position: new kakao.maps.LatLng(userLat, userLng)});
+    var marker = new kakao.maps.Marker({ //내 위치 마커
+      map:map,
+      image: new kakao.maps.MarkerImage("https://static-00.iconduck.com/assets.00/map-marker-icon-342x512-gd1hf1rz.png",new kakao.maps.Size(29,42)),
+      position: new kakao.maps.LatLng(userLat, userLng)
+    }); 
     markers.push(marker)
     if(mapCenter === "user"){map.setCenter(new kakao.maps.LatLng(userLat,userLng))}
   }
@@ -132,12 +136,12 @@ function KakaoMap(){
     return distance;
   }
 
-  function deg2rad(deg) {
+  function deg2rad(deg) { //거리계산용 도구
     return deg * (Math.PI / 180);
   }
 
-  async function getCarDirection() {
-    let REST_API_KEY = "개인API_key";
+  async function getCarDirection() { //길찾기
+    let REST_API_KEY = "개인API";
     let url = "https://apis-navi.kakaomobility.com/v1/directions";
 
     let origin = `${pointObj.startPoint.lng},${pointObj.startPoint.lat}`;
