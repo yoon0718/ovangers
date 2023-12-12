@@ -7,22 +7,25 @@
 .top-right {
     position: absolute;
     top: 0;
+
     right: 0;
 }
 
 .container {
+    position: relative;
     display: flex;
     margin-top: 30px;
     height: 100vh;
 }
 
 .sidebar {
+    position: relative;
     margin-left: 5px;
     display: flex;
     flex-direction: column;
     width: 200px;
     padding: 20px;
-    background-color: #425df5;
+    background-color: #3d58f1;
 }
 .content {
     margin: 0px 20px 0px 20px;
@@ -52,6 +55,37 @@
 .sidebar button:hover{
     background-color: #8c8e97;
 }
-.charge {
-    margin-top: 500px;
+.lout_btn {
+    width: 120px;
+    background-color: #3d58f1;
+    color: aliceblue;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.7s ease;
+}
+.lout_btn:hover {
+    background: rgb(99, 147, 241);
+}
+td{
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+}
+.table{
+    margin-top: 10px;
+}
+.request_btn,.report_btn{
+    width: 100px;
+    height: 30px;
+    background-color: #dfe6e9;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.7s ease;
+}
+.request_btn:hover,.report_btn:hover{
+    background-color: #8c8e97;
 }
