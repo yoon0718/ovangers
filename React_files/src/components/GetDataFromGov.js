@@ -2,9 +2,9 @@ import React from "react";;
 
 function GetDataFromGov(){
     const getChargerMap = async () => {
-        const myCode="Encoding 인증키 입력";
+        const myCode="dy0D%2B1eeKCxwp1F%2B6l9liNsKm5i6Ng3AVU8Vn77lSce4ux8booeqJaqr8wEm9Jvhgl0Ul0jnStjsEnTTFqIFYg%3D%3D";
         const numOfRows="9999";
-        for (let i=1; i < 29 ; i++){
+        for (let i=28; i < 29 ; i++){
             let url = `http://apis.data.go.kr/B552584/EvCharger/getChargerInfo?serviceKey=${myCode}&numOfRows=${numOfRows}&pageNo=${i}&dataType=JSON`;
             const request = await fetch(url)
             const response = await request.json();
@@ -16,7 +16,7 @@ function GetDataFromGov(){
                 body:JSON.stringify(result)
             });
             const response2 = await request2.text();
-            console.log(i+response2); //진행도를 확인하기 위한 로그
+            console.log(i+response2);
         }
     }
 

@@ -1,12 +1,12 @@
 import './App.css';
-import GetDataFromGov from './components/GetDataFromGov';
-// import KakaoMap from './components/KakaoMap';
+import KakaoMap from './components/KakaoMap';
+// import GetDataFromGov from './components/GetDataFromGov';
 // import Test from './components/Test';
 
 function App() {
   return (
     <div className="App">
-      <GetDataFromGov/>
+      <KakaoMap/>
     </div>
   );
 }
