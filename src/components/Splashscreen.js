@@ -3,7 +3,7 @@ import '../css/Splashscreen.css'
 function Splashscreen(){
     return(
         <div className='logo'>
-            <img src={logo}></img>
+            <img className='splash_logo' src={logo}></img>
         </div>
     )
 }

@@ -5,7 +5,7 @@ nav{
     user-select:none;
 }
 
-.bi.bi-person-circle,.bi.bi-search,.bi.bi-power,.bi.bi-sign-turn-right-fill {
+.bi.bi-person-circle,.bi.bi-ev-station,.bi.bi-power {
     position: relative;
     display: table-cell;
     width: 60px;
@@ -29,6 +29,7 @@ nav{
     width:60px;
     overflow:hidden;
     transition: 0.15s;
+    z-index: 2;
 }
 
 .main-menu>ul {
@@ -101,4 +102,32 @@ nav ul,nav li {
     justify-content: center;
 
 }
-
+.search_button{
+    width:20px;
+    height:20px;
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.search_icon{
+    display: flex;
+    margin-left: 40px;
+}
+.open_icon{
+    display: block;
+    color: white;
+    width:30px;
+    height:30px;
+    position: relative;
+    left:15px;
+    top:32vh;
+}
+.close_icon{
+    display: none;
+    color: white;
+    width:30px;
+    height:30px;
+    position: relative;
+    left:260px;
+    top:28.5vh;
+}
