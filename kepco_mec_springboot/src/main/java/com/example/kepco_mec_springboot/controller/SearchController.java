@@ -11,27 +11,49 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.kepco_mec_springboot.model.ChargerMap;
 import com.example.kepco_mec_springboot.model.Search;
+import com.example.kepco_mec_springboot.repository.ChargerMapRepository;
 import com.example.kepco_mec_springboot.repository.SearchRepository;
+import com.example.kepco_mec_springboot.repository.UserRepository;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class SearchController {
     @Autowired
     SearchRepository searchRepository;
+    @Autowired
+    ChargerMapRepository chargerMapRepository;
+    @Autowired
+    UserRepository userRepository;
 
     // 검색
     @PostMapping("/api/search/{sessionId}")
-    public void search(
+    public List<ChargerMap> searchUser(
         @PathVariable String sessionId,
-        @RequestParam("start") String start,
-        @RequestParam("end") String end
+        @RequestParam("addr") String addr,
+        @RequestParam("lat") float lat,
+        @RequestParam("lng") float lng
     ) {
-        Search search = new Search();
-        search.setUserId(searchRepository.findByUserId_UserId(sessionId).get(0).getUserId());
-        search.setStart(start);
-        search.setEnd(end);
-        searchRepository.save(search);
+        List<ChargerMap> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng, 1);
+        Search saveSearch = new Search();
+        saveSearch.setUserId(userRepository.findByUserId(sessionId));
+        saveSearch.setStart("현위치");
+        saveSearch.setEnd(addr);
+        searchRepository.save(saveSearch);
+
+        return search;
+    }
+
+    @PostMapping("/api/search")
+    public List<ChargerMap> searchNotUser(
+        @RequestParam("addr") String addr,
+        @RequestParam("lat") float lat,
+        @RequestParam("lng") float lng
+    ) {
+        List<ChargerMap> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng, 1);
+
+        return search;
     }
 
     // 검색 기록

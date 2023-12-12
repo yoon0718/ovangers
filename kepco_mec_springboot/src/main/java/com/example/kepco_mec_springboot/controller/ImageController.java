@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageController {
     @GetMapping("/api/images/{image}")
     public ResponseEntity<byte[]> goImages(@PathVariable String image) throws IOException {
-        Resource resource = new ClassPathResource("static/images/" + image);
+        Resource resource = new ClassPathResource("/static/images/" + image);
         byte[] imageBytes = Files.readAllBytes(resource.getFile().toPath());
 
         return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(imageBytes);

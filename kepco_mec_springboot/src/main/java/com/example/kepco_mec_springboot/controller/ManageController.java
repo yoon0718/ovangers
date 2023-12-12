@@ -17,6 +17,7 @@ import com.example.kepco_mec_springboot.model.ChargerReport;
 import com.example.kepco_mec_springboot.model.User;
 import com.example.kepco_mec_springboot.repository.ApplyChargeRepository;
 import com.example.kepco_mec_springboot.repository.ChargerReportRepository;
+import com.example.kepco_mec_springboot.repository.UserRepository;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -25,16 +26,19 @@ public class ManageController {
     ApplyChargeRepository applyChargeRepository;
     @Autowired
     ChargerReportRepository chargerReportRepository;
+    @Autowired
+    UserRepository userRepository;
 
     // 충전 요청 목록
     @GetMapping("/api/request")
     public List<ApplyCharge> selectRequest() {
         List<ApplyCharge> applyChargeList = new ArrayList<>();
-        ApplyCharge applyCharge = new ApplyCharge();
+        
         for (int i = 0; i < applyChargeRepository.findAll().size(); i++) {
             User user = new User();
             user.setUserId(applyChargeRepository.findAll().get(i).getUserId().getUserId());
 
+            ApplyCharge applyCharge = new ApplyCharge();
             applyCharge.setPostNumber(applyChargeRepository.findAll().get(i).getPostNumber());
             applyCharge.setStchId(applyChargeRepository.findAll().get(i).getStchId());
             applyCharge.setUserId(user);
@@ -42,15 +46,21 @@ public class ManageController {
             applyCharge.setPostEndDate(applyChargeRepository.findAll().get(i).getPostEndDate());
             applyChargeList.add(applyCharge);
         }
+        
         return applyChargeList;
     }
 
     // 충전 요청 완료
     @PutMapping("/api/request")
-    public void updateRequest(@RequestParam("postNumber") int postNumber) {
+    public void updateRequest(
+        @RequestParam("postNumber") int postNumber,
+        @RequestParam("userId") String userId
+    ) {
         List<ApplyCharge> applyCharge = applyChargeRepository.findByPostNumber(postNumber);
         applyCharge.get(0).setPostEndDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         applyChargeRepository.saveAll(applyCharge);
+        int point = userRepository.findByUserId(userId).getUserPoint();
+        point = point + 500;
     }
 
     // 고장 신고 목록
@@ -74,9 +84,14 @@ public class ManageController {
 
     // 고장 신고 완료
     @PutMapping("/api/down")
-    public void updateDown(@RequestParam("postNum") int postNum) {
+    public void updateDown(
+        @RequestParam("postNum") int postNum,
+        @RequestParam("userId") String userId
+    ) {
         List<ChargerReport> chargerReport = chargerReportRepository.findByPostNum(postNum);
         chargerReport.get(0).setPostEndDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         chargerReportRepository.saveAll(chargerReport);
+        int point = userRepository.findByUserId(userId).getUserPoint();
+        point = point + 500;
     }
 }

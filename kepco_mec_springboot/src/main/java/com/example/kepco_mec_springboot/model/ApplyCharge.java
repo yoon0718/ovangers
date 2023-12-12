@@ -25,4 +25,5 @@ public class ApplyCharge {
     
     private String postStartDate;
     private String postEndDate;
+    // private String deleteYn;
 }
