@@ -38,25 +38,25 @@ function KakaoMaps() {
       return { ...prev, [pointType]: { marker, lat, lng } };
     });
   }
-  // function distance(lat1, lon1, lat2, lon2) {
-  //   const R = 6371; // 지구 반지름 (단위: km)
-  //   const dLat = deg2rad(lat2 - lat1);
-  //   const dLon = deg2rad(lon2 - lon1);
-  //   const a =
-  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-  //     Math.cos(deg2rad(lat1)) *
-  //       Math.cos(deg2rad(lat2)) *
-  //       Math.sin(dLon / 2) *
-  //       Math.sin(dLon / 2);
-  //   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  //   const distance = R * c; // 두 지점 간의 거리 (단위: km)
-  //   return distance;
-  // }
-  // function deg2rad(deg) {
-  //   return deg * (Math.PI / 180);
-  // }
+  function distance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // 지구 반지름 (단위: km)
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // 두 지점 간의 거리 (단위: km)
+    return distance;
+  }
+  function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+  }
   async function getCarDirection() {
-    let REST_API_KEY = "본인꺼";
+    let REST_API_KEY = "본인 restApiKey";
     let url = "https://apis-navi.kakaomobility.com/v1/directions";
 
     let origin = `${pointObj.startPoint.lng},${pointObj.startPoint.lat}`;
@@ -85,8 +85,9 @@ function KakaoMaps() {
       }
 
       let data = await response.json();
-      console.log(data);
       let linePath = [];
+      let lineLatLng = [];
+      let linelength = 0;
       data.routes[0].sections[0].roads.forEach((router) => {
         router.vertexes.forEach((vertex, index) => {
           if (index % 2 === 0) {
@@ -96,13 +97,23 @@ function KakaoMaps() {
                 router.vertexes[index]
               )
             );
-            console.log("1", router.vertexes[index + 1]);
-            console.log("2", router.vertexes[index]);
+            lineLatLng.push(router.vertexes[index + 1], router.vertexes[index]);
+            if (lineLatLng.length == 4) {
+              let dist = distance(
+                lineLatLng[0],
+                lineLatLng[1],
+                lineLatLng[2],
+                lineLatLng[3]
+              );
+              linelength = linelength + dist;
+              lineLatLng = [];
+            }
           }
         });
       });
+      console.log(linelength * 2 + "KM", "최종길이");
+      // 거리 계산 - 나중에 넣을 수 있으면 넣을 것
 
-      console.log(linePath);
       var polyline = new kakao.maps.Polyline({
         path: linePath,
         strokeWeight: 5,
@@ -112,7 +123,6 @@ function KakaoMaps() {
       });
       if (map) {
         polyline.setMap(map);
-        console.log(polyline);
       } else {
         console.error("Map object is not available.");
       }
@@ -133,7 +143,7 @@ function KakaoMaps() {
         </button>
         <button
           onClick={() =>
-            setPoint({ lat: 35.13995836, lng: 126.793668 }, "endPoint")
+            setPoint({ lat: 36.00568611, lng: 129.3616667 }, "endPoint")
           }
         >
           목적지 설정
