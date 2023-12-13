@@ -1,5 +1,5 @@
 import "./Report.css"
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 function ReportDetail(){
     const [content, setContent] = useState([]);
     const [data1,setData1] = useState([]);
@@ -12,6 +12,7 @@ function ReportDetail(){
             const response = await ajax.json();
             setData1(response)
         }
+
         const requestClick = () => {
             
         };
@@ -28,23 +29,50 @@ function ReportDetail(){
         const sidebarClick = (type)=>{
         if (type === "request"){
             let dataList=[];
+            dataList.push(
+                        <div>
+                            <h2 className="h2">방문 충전 신청내역</h2>
+                            <table class="table">
+                                <tr>
+                                    <th width="86" height="50">Post_Num</th>
+                                    <th width="200">lat</th>
+                                    <th width="200">lng</th>
+                                    <th width="120">User_Id</th>
+                                    <th width="300">Start_Date</th>
+                                    <th width="300">End_Date</th>
+                                </tr>
+                            </table>
+                           </div>)
             data1.forEach(data => {
-            dataList.push(<div>
+            dataList.push(<div key={data.postNumber}>
                             <hr/>
                             <td width="86" height="50">{data.postNumber}</td>
-                            <td width="400">{data.stchId.stchId}</td>
+                            <td width="200">{data.lat}</td>
+                            <td width="200">{data.lng}</td>
                             <td width="120">{data.userId.userId}</td>
                             <td width="300">{data.postStartDate}</td>
                             <td width="300">{data.postEndDate}</td>
                             <td width="300"><button class="request_btn" onClick={()=>requestClick()}>OK</button></td>
                           </div>)
-            })
+            });
             setContent(dataList);
-
         } else if (type === "report"){
             let datalist2=[];
+            datalist2.push(
+                            <div>
+                                <h2 className="h2">고장 신고 내역</h2>
+                                <table class="table">
+                                    <tr>
+                                        <th width="86" height="50">Post_Num</th>
+                                        <th width="400">Stch_Id</th>
+                                        <th width="120">User_Id</th>
+                                        <th width="300">Start_Date</th>
+                                        <th width="300">End_Date</th>
+                                    </tr>
+                                </table>
+                            </div>)
             brdata.forEach(data => {
-            datalist2.push(<div>
+            datalist2.push(<div key={data.postNum}>
                             <hr/>
                             <td width="86" height="50">{data.postNum}</td>
                             <td width="400">{data.stchId.stchId}</td>
@@ -55,12 +83,13 @@ function ReportDetail(){
                            </div>)
             })
             setContent(datalist2);
-
         } else if (type === "refresh"){
-            const refreshData = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  데이터 갱신  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            const refreshData = "데이터갱신"
             setContent(refreshData);
         }
     };
+
+    useEffect(()=>{data(); data2();},[])
 
     return(
     <div>
@@ -69,23 +98,15 @@ function ReportDetail(){
         </div>
         <div className="container">
             <div className="sidebar">
-                <div><button className="rq" onClick={()=> {sidebarClick("request"); data();}}>방문충전신청내역</button></div>
+                <div><button className="rq" onClick={()=> {data(); sidebarClick("request");}}>방문충전신청내역</button></div>
                 <br/>
-                <div><button className="break" onClick={()=> {sidebarClick("report"); data2();}}>고장 신고 내역</button></div>
+                <div><button className="break" onClick={()=> {data2(); sidebarClick("report");}}>고장 신고 내역</button></div>
                 <br/>
                 <div><button className="charge" onClick={()=> sidebarClick("refresh")}>충전소 데이터 갱신</button></div>
+                <br/>
+                
             </div>
             <div className="content">
-            <h2 style={{fontweight:"bold",border:"2px solid #636e72",background:"#dfe6e9",borderRadius:"10px"}}>신고내역</h2>
-                <table class="table">
-                    <tr>
-                        <th width="86" height="50">Post_Num</th>
-                        <th width="400">Stch_Id</th>
-                        <th width="120">User_Id</th>
-                        <th width="300">Start_Date</th>
-                        <th width="300">End_Date</th>
-                    </tr>
-                </table>
                 <span>{content}</span>
             </div>
         </div>

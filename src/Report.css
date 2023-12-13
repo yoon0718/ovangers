@@ -89,3 +89,9 @@ td{
 .request_btn:hover,.report_btn:hover{
     background-color: #8c8e97;
 }
+.h2{
+    font-weight:bold;
+    border:2px solid #636e72;
+    background:#dfe6e9;
+    border-radius:10px;
+}
