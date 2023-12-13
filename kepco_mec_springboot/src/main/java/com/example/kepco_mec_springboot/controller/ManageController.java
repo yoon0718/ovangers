@@ -40,10 +40,11 @@ public class ManageController {
 
             ApplyCharge applyCharge = new ApplyCharge();
             applyCharge.setPostNumber(applyChargeRepository.findAll().get(i).getPostNumber());
-            applyCharge.setStchId(applyChargeRepository.findAll().get(i).getStchId());
             applyCharge.setUserId(user);
             applyCharge.setPostStartDate(applyChargeRepository.findAll().get(i).getPostStartDate());
             applyCharge.setPostEndDate(applyChargeRepository.findAll().get(i).getPostEndDate());
+            applyCharge.setLat(applyChargeRepository.findAll().get(i).getLat());
+            applyCharge.setLng(applyChargeRepository.findAll().get(i).getLng());
             applyChargeList.add(applyCharge);
         }
         
@@ -52,26 +53,31 @@ public class ManageController {
 
     // 충전 요청 완료
     @PutMapping("/api/request")
-    public void updateRequest(
+    public String updateRequest(
         @RequestParam("postNumber") int postNumber,
         @RequestParam("userId") String userId
     ) {
-        List<ApplyCharge> applyCharge = applyChargeRepository.findByPostNumber(postNumber);
-        applyCharge.get(0).setPostEndDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        applyChargeRepository.saveAll(applyCharge);
-        int point = userRepository.findByUserId(userId).getUserPoint();
-        point = point + 500;
+        if (applyChargeRepository.findByPostNumber(postNumber).get(0).getPostEndDate() == null) {
+            List<ApplyCharge> applyCharge = applyChargeRepository.findByPostNumber(postNumber);
+            applyCharge.get(0).setPostEndDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            applyChargeRepository.saveAll(applyCharge);
+            return "충전 완료";
+        }
+        else {
+            return "에임 이슈";
+        }
     }
 
     // 고장 신고 목록
     @GetMapping("/api/down")
     public List<ChargerReport> selectDown() {
         List<ChargerReport> chargerReportList = new ArrayList<>();
-        ChargerReport chargerReport = new ChargerReport();
+        
         for (int i = 0; i < chargerReportRepository.findAll().size(); i++) {
             User user = new User();
             user.setUserId(chargerReportRepository.findAll().get(i).getUserId().getUserId());
 
+            ChargerReport chargerReport = new ChargerReport();
             chargerReport.setPostNum(chargerReportRepository.findAll().get(i).getPostNum());
             chargerReport.setStchId(chargerReportRepository.findAll().get(i).getStchId());
             chargerReport.setUserId(user);
@@ -79,19 +85,29 @@ public class ManageController {
             chargerReport.setPostEndDate(chargerReportRepository.findAll().get(i).getPostEndDate());
             chargerReportList.add(chargerReport);
         }
+
         return chargerReportList;
     }
 
     // 고장 신고 완료
     @PutMapping("/api/down")
-    public void updateDown(
+    public String updateDown(
         @RequestParam("postNum") int postNum,
         @RequestParam("userId") String userId
     ) {
-        List<ChargerReport> chargerReport = chargerReportRepository.findByPostNum(postNum);
-        chargerReport.get(0).setPostEndDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        chargerReportRepository.saveAll(chargerReport);
-        int point = userRepository.findByUserId(userId).getUserPoint();
-        point = point + 500;
+        if (chargerReportRepository.findByPostNum(postNum).get(0).getPostEndDate() == null) {
+            List<ChargerReport> chargerReport = chargerReportRepository.findByPostNum(postNum);
+            chargerReport.get(0).setPostEndDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            chargerReportRepository.saveAll(chargerReport);
+
+            User userInfo = userRepository.findByUserId(userId);
+            userInfo.setUserPoint(userRepository.findByUserId(userId).getUserPoint() + 500);
+            userRepository.save(userInfo);
+
+            return "수리 완료";
+        }
+        else {
+            return "에임 이슈";
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.kepco_mec_springboot.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.kepco_mec_springboot.model.ChargerMap;
 import com.example.kepco_mec_springboot.model.Search;
 import com.example.kepco_mec_springboot.repository.ChargerMapRepository;
 import com.example.kepco_mec_springboot.repository.SearchRepository;
@@ -27,15 +27,16 @@ public class SearchController {
     @Autowired
     UserRepository userRepository;
 
-    // 검색
+    // 검색(회원)
     @PostMapping("/api/search/{sessionId}")
-    public List<ChargerMap> searchUser(
+    public List<Map<String,Object>> searchUser(
         @PathVariable String sessionId,
         @RequestParam("addr") String addr,
         @RequestParam("lat") float lat,
         @RequestParam("lng") float lng
     ) {
-        List<ChargerMap> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng, 1);
+        List<Map<String,Object>> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng);
+
         Search saveSearch = new Search();
         saveSearch.setUserId(userRepository.findByUserId(sessionId));
         saveSearch.setStart("현위치");
@@ -45,18 +46,19 @@ public class SearchController {
         return search;
     }
 
+    // 검색(비회원)
     @PostMapping("/api/search")
-    public List<ChargerMap> searchNotUser(
+    public List<Map<String,Object>> searchNotUser(
         @RequestParam("addr") String addr,
         @RequestParam("lat") float lat,
         @RequestParam("lng") float lng
     ) {
-        List<ChargerMap> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng, 1);
+        List<Map<String,Object>> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng);
 
         return search;
     }
 
-    // 검색 기록
+    // 검색기록(회원)
     @GetMapping("/api/search/{sessionId}")
     public List<Search> searchList(@PathVariable String sessionId) {
         List<Search> searchList = new ArrayList<>();

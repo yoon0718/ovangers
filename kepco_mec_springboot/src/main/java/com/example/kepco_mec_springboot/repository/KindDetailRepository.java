@@ -4,11 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.kepco_mec_springboot.model.KindDetail;
-import java.util.List;
 
 
 @Repository
 public interface KindDetailRepository extends JpaRepository<KindDetail,String> {
-    List<KindDetail> findByKindDetail(String kindDetail);
-    List<KindDetail> findByFacility(String facility);
+    
 }

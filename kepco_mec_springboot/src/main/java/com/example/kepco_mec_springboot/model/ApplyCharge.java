@@ -16,14 +16,11 @@ public class ApplyCharge {
     private int postNumber;
 
     @ManyToOne
-    @JoinColumn(name = "stchId")
-    private ChargerMap stchId;
-
-    @ManyToOne
     @JoinColumn(name = "userId")
     private User userId;
     
+    private float lat;
+    private float lng;
     private String postStartDate;
     private String postEndDate;
-    // private String deleteYn;
 }

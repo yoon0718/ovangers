@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kepco_mec_springboot.model.User;
 import com.example.kepco_mec_springboot.repository.UserRepository;
 
+// 회원가입
 @RestController
 @CrossOrigin(origins = "*")
 public class AccountController {

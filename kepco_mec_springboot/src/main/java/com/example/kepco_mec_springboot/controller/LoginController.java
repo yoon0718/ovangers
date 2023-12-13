@@ -18,6 +18,7 @@ public class LoginController {
     @Autowired
     UserRepository userRepository;
 
+    // 로그인
     @PostMapping("/api/login")
     public List<User> login(
         @RequestParam("userId") String userId,

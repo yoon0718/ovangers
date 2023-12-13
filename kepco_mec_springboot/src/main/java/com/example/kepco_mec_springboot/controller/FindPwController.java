@@ -18,6 +18,7 @@ public class FindPwController {
     @Autowired
     UserRepository userRepository;
     
+    // 비밀번호 재설정 전 회원 정보 일치 확인
     @PostMapping("/api/findPw")
     public boolean selectAccount(
         @RequestParam("userId") String userId,
@@ -36,6 +37,7 @@ public class FindPwController {
         }
     }
 
+    // 비밀번호 재설정
     @PutMapping("/api/findPw")
     public String updateAccount(
         @RequestParam("userId") String userId,
