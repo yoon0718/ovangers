@@ -1,4 +1,4 @@
-.form-box1{
+.form-box2{
     position: relative;
     width: 35vw;
     height: 65vh;
@@ -11,17 +11,20 @@
     box-shadow: 15px 15px 17px rgba(0,0,0,0.5);
     left: 2vw;
 }
-.sign_div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.sign_form{
+
+.find_div,.change_div{
     display: flex;
     flex-direction: column;
-    height:100%;
+    justify-content: center;
+    align-items: center;
+    width: 40vw;
+    height: 60vh;
 }
-.sign_form input{
+.find_form, .change_form{
+    display: flex;
+    flex-direction: column;
+}
+.find_form input,.change_form input{
     border-radius: 5px;
     width: 250px;
     height: 30px;
@@ -29,7 +32,8 @@
     margin-bottom: 10px;
     margin-top: 5px;
 }
-.sign_btn{
+
+.find_btn,.change_btn{
     width: 250px;
     height: 40px; 
     border-radius: 40px;
@@ -44,6 +48,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.find_btn:hover{
+    background: rgb(15, 106, 211);
+}
+
+.find_form > * ,.change_form > *{
+    font-size: 20px;
 }
 .bi.bi-x-lg{
     position:relative;

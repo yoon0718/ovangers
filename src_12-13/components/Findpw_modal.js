@@ -72,42 +72,48 @@ function Findpw_modal(props){
     let update_pw;
     if (mode[0] === "check"){
         update_pw = 
-            <div className="find_div">
-                <form className="find_form">
-                    <label>ID</label>
-                    <input id='find_id' type="text" name="id" placeholder="아이디"/>
-                    <label>Phone</label>
-                    <input id='find_phone' type="text" name="phone" placeholder="전화번호"/>
-                    <label>Email</label>
-                    <input id='find_email' type="text" name="email" placeholder="aaa@aaa.com"/>                   
-                    <input type="submit" value="비밀번호찾기" onClick={(e) => {e.preventDefault();checker();}}></input>
-                </form>
+            <div className='form-box2'>
+                <div className="find_div">
+                    <form className="find_form">
+                        <label>ID</label>
+                        <input id='find_id' type="text" name="id" placeholder="아이디"/>
+                        <label>Phone</label>
+                        <input id='find_phone' type="text" name="phone" placeholder="전화번호"/>
+                        <label>Email</label>
+                        <input id='find_email' type="text" name="email" placeholder="aaa@aaa.com"/>                   
+                        <button className="find_btn" type="submit" value="비밀번호찾기" onClick={(e) => {e.preventDefault();checker();}}>비밀번호찾기</button>
+                    </form>
+                </div>
             </div>;
     } else if(mode[0] === "update"){
         update_pw = 
-        <div className="change_div">
-            <form className="change_form">        
-                <label>새 비밀번호입력</label>
-                <input id='new_pw' type="password"></input>
-                <label>비밀번호 확인</label>
-                <input id='check_pw' type="password"></input>
-                <input type="submit" onClick={(e) => {e.preventDefault();update();}}></input>
-            </form>
-        </div>
+            <div className='form-box2'>
+                <div className="change_div">
+                    <form className="change_form">        
+                        <label>새 비밀번호입력</label>
+                        <input id='new_pw' type="password"></input>
+                        <label>비밀번호 확인</label>
+                        <input id='check_pw' type="password"></input>
+                        <button className='change_btn' type="submit" onClick={(e) => {e.preventDefault();update();}}>비밀번호 수정완료</button>
+                    </form>
+                </div>
+            </div>;
         
     } else{
         update_pw = 
-        <div className="find_div">
-            <form className="find_form">
-                <label>ID</label>
-                <input id='find_id' type="text" name="id" placeholder="아이디"></input>
-                <label>Phone</label>
-                <input id='find_phone' type="text" name="phone" placeholder="전화번호"></input>
-                <label>Email</label>
-                <input id='find_email' type="text" name="email" placeholder="aaa@aaa.com"></input>                   
-                <input type="submit" value="비밀번호찾기" onClick={(e) => {e.preventDefault();checker();}}></input>
-            </form>
-        </div>
+        <div className='form-box2'>
+            <div className="find_div">
+                <form className="find_form">
+                    <label>ID</label>
+                    <input id='find_id' type="text" name="id" placeholder="아이디"></input>
+                    <label>Phone</label>
+                    <input id='find_phone' type="text" name="phone" placeholder="전화번호"></input>
+                    <label>Email</label>
+                    <input id='find_email' type="text" name="email" placeholder="aaa@aaa.com"></input>                   
+                    <button className="find_btn" type="submit" value="비밀번호찾기" onClick={(e) => {e.preventDefault();checker();}}>비밀번호찾기</button>
+                </form>
+            </div>
+        </div>;
     }
 
     return(
