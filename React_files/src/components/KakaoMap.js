@@ -46,7 +46,8 @@ function KakaoMap(props){
     let typeControl = new kakao.maps.MapTypeControl();
     map.addControl(typeControl, kakao.maps.ControlPosition.TOPRIGHT);
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-    kakao.maps.event.addListener(map,"dragstart",()=>{markers.forEach(marker=>{marker.setMap(null)})})
+    kakao.maps.event.addListener(map,"dragstart",()=>{markers.forEach(marker=>{marker.setMap(null)})});
+    kakao.maps.event.addListener(map,"zoom_start",()=>{markers.forEach(marker=>{marker.setMap(null)})});
     kakao.maps.event.addListener(map,"idle",()=>{
       getChargerLocationData(map.getBounds());
       getChargerData(map.getBounds());
@@ -62,11 +63,23 @@ function KakaoMap(props){
         title:chargerLoc.statNm,
         clickable: true,
       });
-      let chargerList = ""
+      let chargerList = `<div class="chargerInfo" style="display:flex">
+        <div class="chargerLocation">상세위치</div>
+        <div class="chargerId">기기번호</div>
+        <div class="chargerType">충전기 타입</div>
+        <div class="chargerOutput">출력전압(kV)</div>
+        <div class="chargerBtn"></div>
+        </div>`
       let iwContent, iwPosition, iwRemoveable;
       chargerDetail.forEach(charger =>{
         if (charger.addr === chargerLoc.addr){
-          chargerList += `<div>${charger.stchId} ${charger.chgerType.type} ${charger.output} kV  <button type="button">신고하기</button></div>`
+          chargerList += `<div class="chargerInfo" style="display:flex">
+          <div class="chargerLocation">${charger.location}</div>
+          <div class="chargerId">${charger.stchId}</div>
+          <div class="chargerType">${charger.chgerType.type}</div>
+          <div class="chargerOutput">${charger.output} kV</div>
+          <div class="chargerBtn"><button type="button">고장신고</button></div>
+          </div>`
         }
         iwContent =
         `<div class="wrap">
@@ -77,12 +90,12 @@ function KakaoMap(props){
                 </div>
                 <div class="body">
                     <div class="desc">
-                        <div class="ellipsis">${charger.addr}<br/> ${charger.location}</div>
+                        <div class="ellipsis">${chargerLoc.addr}</div>
                         ${chargerList}
                         <div class="ellipsis">${charger.useTime}</div>
                         <div class="ellipsis">${charger.busiNm} ${charger.busiCall}</div>
                         <div class="ellipsis">${charger.limitDetail}</div>
-                        <div class="ellipsis"><button type="button" onClick={}>길찾기</button></div>
+                        <div class="ellipsis"><button type="button" onClick="{document.querySelector('#find_addr').value='${chargerLoc.addr}'}">길찾기</button></div>
                         <br>
                     </div>
                 </div>
@@ -98,8 +111,9 @@ function KakaoMap(props){
       });
       kakao.maps.event.addListener(marker, "click", function () {
         infowindow.open(map, marker);
-        setPoint({ lat: marker.getPosition().Ma, lng: marker.getPosition().La }, "endPoint");
-        setPoint({ lat: props.userLat, lng: props.userLng }, "startPoint");
+        marker.setMap(null);
+        setPoint({ lat: marker.getPosition().Ma, lng: marker.getPosition().La }, "endPoint")
+        setPoint({ lat: props.userLat, lng: props.userLng }, "startPoint")
       });
 
       markers.push(marker);
@@ -127,20 +141,9 @@ function KakaoMap(props){
   else if (map != null) {createMarker();}
 
   function setPoint({ lat, lng }, pointType) { // 길찾기 마커
-    if (pointType !== "startPoint"){
-      let marker = new kakao.maps.Marker({
-        map:map,
-        position: new kakao.maps.LatLng(lat, lng),
-      });
-    }
-    
     props.setPointObj((prev) => {
-      console.log(prev);
-      if (props.pointObj[pointType].marker !== null && props.pointObj.polyline != null){prev[pointType].marker.setMap(null);prev.polyline.setMap(null);}
-      else if (props.pointObj[pointType].marker !== null) {
-        prev[pointType].marker.setMap(null);
-      }
-      return { ...prev, [pointType]: { marker, lat, lng } };
+      if (props.pointObj.polyline != null){prev.polyline.setMap(null);}
+      return { ...prev, [pointType]: { lat, lng } };
     });
   }
 
@@ -240,24 +243,21 @@ function KakaoMap(props){
     }
   }
 
+  if(props.findRoute){
+    if (props.pointObj.polyline != null){props.pointObj.polyline.setMap(null);}
+    markers.forEach(marker=>{marker.setMap(null)})
+    getCarDirection();
+    props.setFindRoute(false);
+  }
+
   useEffect(()=>{
-      createMap();
+    createMap();
   },[])
 
   return(
     <div>
       <div id="map" style={{width:'100vw',height:'97vh', zIndex:0}}></div>
-      <button type="button" onClick={()=>{setMapCenter("user");}}>내 위치로</button>
-      <button
-        onClick={ () =>{
-            setPoint({ lat: props.userLat, lng: props.userLng }, "startPoint");
-            setPoint({ lat: 36.00568611, lng: 129.3616667 }, "endPoint");
-            getCarDirection();
-          }
-        }
-        >
-        목적지1 설정
-      </button>
+      <button type="button" onClick={()=>{setMapCenter("user");}}>현위치</button>
     </div>
   );
 }

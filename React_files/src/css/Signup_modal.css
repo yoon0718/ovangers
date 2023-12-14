@@ -45,6 +45,9 @@
     align-items: center;
     justify-content: center;
 }
+.sign_btn:hover{
+    background: rgb(15, 106, 211);
+}
 .bi.bi-x-lg{
     position:relative;
     left: 39.2vw;
