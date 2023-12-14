@@ -35,15 +35,21 @@ public class SearchController {
         @RequestParam("lat") float lat,
         @RequestParam("lng") float lng
     ) {
-        List<Map<String,Object>> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng);
+        if (addr.replace(" ", "") != "") {
+            List<Map<String,Object>> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng);
+            
+            Search saveSearch = new Search();
+            saveSearch.setUserId(userRepository.findByUserId(sessionId));
+            saveSearch.setStart("현위치");
+            saveSearch.setEnd(addr);
+            searchRepository.save(saveSearch);
 
-        Search saveSearch = new Search();
-        saveSearch.setUserId(userRepository.findByUserId(sessionId));
-        saveSearch.setStart("현위치");
-        saveSearch.setEnd(addr);
-        searchRepository.save(saveSearch);
-
-        return search;
+            return search;
+        }
+        else {
+            List<Map<String,Object>> empty = new ArrayList<>();
+            return empty;
+        }
     }
 
     // 검색(비회원)
@@ -53,9 +59,20 @@ public class SearchController {
         @RequestParam("lat") float lat,
         @RequestParam("lng") float lng
     ) {
-        List<Map<String,Object>> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng);
+        if (addr.replace(" ", "") != "") {
+            List<Map<String,Object>> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng);
 
-        return search;
+            Search saveSearch = new Search();
+            saveSearch.setStart("현위치");
+            saveSearch.setEnd(addr);
+            searchRepository.save(saveSearch);
+
+            return search;
+        }
+        else {
+            List<Map<String,Object>> empty = new ArrayList<>();
+            return empty;
+        }
     }
 
     // 검색기록(회원)
@@ -64,7 +81,7 @@ public class SearchController {
         List<Search> searchList = new ArrayList<>();
         List<Search> userId = searchRepository.findByUserId_UserId(sessionId);
         
-        for (int i = 0; i < userId.size(); i++) {
+        for (int i = 0; i < 10; i++) {
             Search search = new Search();
             search.setSeq(userId.get(i).getSeq());
             search.setStart(userId.get(i).getStart());

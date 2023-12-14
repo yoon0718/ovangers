@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.kepco_mec_springboot.model.ApplyCharge;
+import com.example.kepco_mec_springboot.model.Point;
 import com.example.kepco_mec_springboot.model.User;
 
+
 @Repository
-public interface ApplyChargeRepository extends JpaRepository<ApplyCharge,Integer> {
-    List<ApplyCharge> findByPostNumber(int postNumber);
-    List<ApplyCharge> findByUserId(User userId);
+public interface PointRepository extends JpaRepository<Point,Integer> {
+    List<Point> findByUserId(User userId);
 }

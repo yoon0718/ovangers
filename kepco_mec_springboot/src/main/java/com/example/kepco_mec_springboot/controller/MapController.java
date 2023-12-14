@@ -19,6 +19,7 @@ import com.example.kepco_mec_springboot.model.ChargerReport;
 import com.example.kepco_mec_springboot.repository.ApplyChargeRepository;
 import com.example.kepco_mec_springboot.repository.ChargerMapRepository;
 import com.example.kepco_mec_springboot.repository.ChargerReportRepository;
+import com.example.kepco_mec_springboot.repository.StatRepository;
 import com.example.kepco_mec_springboot.repository.UserRepository;
 
 @RestController
@@ -32,6 +33,8 @@ public class MapController {
     ChargerReportRepository chargerReportRepository;
     @Autowired
     ApplyChargeRepository applyChargeRepository;
+    @Autowired
+    StatRepository statRepository;
 
     // 지도에서 동일 위치 그룹핑
     @GetMapping("/api/location")
@@ -86,14 +89,17 @@ public class MapController {
     @PostMapping("/api/down/{sessionId}")
     public String downReport(
         @PathVariable String sessionId,
-        @RequestParam("lat") float lat,
-        @RequestParam("lng") float lng
+        @RequestParam("stchId") String stchId
     ) {
         ChargerReport chargerReport = new ChargerReport();
-        chargerReport.setStchId(chargerMapRepository.findByLatAndLng(lat,lng).get(0));
+        chargerReport.setStchId(chargerMapRepository.findByStchId(stchId).get(0));
         chargerReport.setPostStartDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         chargerReport.setUserId(userRepository.findByUserId(sessionId));
         chargerReportRepository.save(chargerReport);
+
+        ChargerMap chargerMap = chargerMapRepository.findByStchId(stchId).get(0);
+        chargerMap.setStat(statRepository.findByStat(5));
+        chargerMapRepository.save(chargerMap);
         
         return "접수되었습니다";
     }

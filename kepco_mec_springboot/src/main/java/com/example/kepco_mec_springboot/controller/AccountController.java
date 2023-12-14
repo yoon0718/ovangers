@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kepco_mec_springboot.model.User;
 import com.example.kepco_mec_springboot.repository.UserRepository;
 
-// 회원가입
 @RestController
 @CrossOrigin(origins = "*")
 public class AccountController {
     @Autowired
     UserRepository userRepository;
 
+    // 회원가입
     @PostMapping("/api/account")
     public String insertAccount(
         @RequestParam("userId") String userId,

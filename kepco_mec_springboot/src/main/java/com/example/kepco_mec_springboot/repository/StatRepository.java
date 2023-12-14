@@ -8,5 +8,5 @@ import com.example.kepco_mec_springboot.model.Stat;
 
 @Repository
 public interface StatRepository extends JpaRepository<Stat,Integer> {
-    
+    Stat findByStat(int stat);
 }

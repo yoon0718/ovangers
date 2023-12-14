@@ -9,14 +9,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.kepco_mec_springboot.model.ChargerMap;
+import com.example.kepco_mec_springboot.model.Stat;
 
 
 @Repository
 public interface ChargerMapRepository extends JpaRepository<ChargerMap,String> {
-    ChargerMap findByStchId(String stchId);
+    List<ChargerMap> findByStchId(String stchId);
     List<ChargerMap> findByAddrContains(String addr);
     List<ChargerMap> findByAddr(String addr);
     List<ChargerMap> findAllByLatBetweenAndLngBetween(float lat_start,float lat_end,float lng_start,float lng_end);
+    Stat findByStat_Stat(int stat);
 
     // 지도에서 동일 위치 그룹핑
     @Query(value =
@@ -34,9 +36,9 @@ public interface ChargerMapRepository extends JpaRepository<ChargerMap,String> {
         @Param("lng_end") float lng_end
     );
 
-    // 지도에서 단어 검색 시 설정 범위 내에 있는 충전소 검색
+    // 지도에서 단어 검색 시 설정 범위 내에 있는 충전소를 검색 후 동일 위치는 그룹핑
     @Query(value =
-            "SELECT addr, (6371 * acos(cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng) - radians(:lng)) + sin(radians(:lat)) * sin(radians(lat)))) AS distance " +
+            "SELECT addr, lat, lng, (6371 * acos(cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng) - radians(:lng)) + sin(radians(:lat)) * sin(radians(lat)))) AS distance " +
             "FROM charger_map " +
             "WHERE addr Like %:addr% " +
             "GROUP BY addr, lat, lng " +
