@@ -1,3 +1,6 @@
-.test{
-    display: flex;
+.splash{
+    width:100vw;
+    height:100vh;
+    z-index: 1000;
+    position: absolute;
 }

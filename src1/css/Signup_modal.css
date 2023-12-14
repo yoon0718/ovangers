@@ -11,17 +11,15 @@
     box-shadow: 15px 15px 17px rgba(0,0,0,0.5);
     left: 2vw;
 }
-
 .sign_div{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40vw;
-    height: 60vh;
 }
 .sign_form{
     display: flex;
     flex-direction: column;
+    height:100%;
 }
 .sign_form input{
     border-radius: 5px;
@@ -47,13 +45,8 @@
     align-items: center;
     justify-content: center;
 }
-
 .sign_btn:hover{
     background: rgb(15, 106, 211);
-}
-
-.sign_form > *{
-    font-size: 20px;
 }
 .bi.bi-x-lg{
     position:relative;

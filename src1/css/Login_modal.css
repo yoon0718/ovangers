@@ -2,6 +2,7 @@
     width: 25vw;
     height:50vh;
     display: flex;
+
     justify-content: center;
 }
 .form-box{
@@ -40,11 +41,9 @@ h2{
     /* padding:0 35px 0 5px; */
     color: black;
 }
-.signup, .findpw{
-    cursor: pointer;
-}
 .login_wrapper{
     width: auto;
+    
     margin: 0 30px;
     height: 40px;
     border-radius: 40px;
@@ -63,7 +62,6 @@ h2{
 .login_wrapper:hover{
     background: rgb(15, 106, 211);
 }
-
 .pwfind{
     font-size: .9em;
     color: black;
@@ -81,7 +79,6 @@ h2{
 .login_wrapper{
     cursor: pointer;
 }
-
 
 .bi.bi-x{
     position:relative;

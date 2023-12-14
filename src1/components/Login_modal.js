@@ -74,7 +74,7 @@ function Login_modal(props){
             </svg>
             <div className="wrapper">
                 <div className="form-box">
-                    <div className="form-value">
+                        <div className="form-value">
                         <form className="log_form">
                             <h2>Login</h2>
                             <div className="inputbox">
@@ -93,7 +93,7 @@ function Login_modal(props){
                                 <a className="findpw" onClick={()=>{setFindPwSwitch(true);}}>비밀번호 찾기</a>
                             </div>
                         </form>
-                    </div>
+                        </div>
                 </div>
             </div>
             <Signup_Modal signupSwitch={signupSwitch} setSignUpSwitch={setSignUpSwitch}/>

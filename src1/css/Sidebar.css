@@ -5,7 +5,7 @@ nav{
     user-select:none;
 }
 
-.bi.bi-person-circle,.bi.bi-search,.bi.bi-power,.bi.bi-sign-turn-right-fill {
+.bi.bi-person-circle,.bi.bi-ev-station,.bi.bi-power,.bi.bi-ev-front,.bi.bi-clipboard-check {
     position: relative;
     display: table-cell;
     width: 60px;
@@ -15,12 +15,11 @@ nav{
 
 
 .main-menu:hover,nav.main-menu.expanded {
-    width:300px;
     transition: 0.15s;
 }
 
 .main-menu {
-    background:#3189f5;
+    background:#0068e7;
     position:absolute;
     top:0;
     bottom:0;
@@ -29,6 +28,7 @@ nav{
     width:60px;
     overflow:hidden;
     transition: 0.15s;
+    z-index: 2;
 }
 
 .main-menu>ul {
@@ -73,8 +73,8 @@ nav ul,nav li {
     background-color:rgb(0, 90, 199);
     transition: 1.4s;
 }
-.sidebar_account,.sidebar_search,.sidebar_navi{
-    margin-top: 20px;
+.sidebar_account,.sidebar_search,.visit_charge,.visit_board{
+    margin-top: 30px;
 }
 .sidebar_wrapper{
     display: flex;
@@ -95,10 +95,38 @@ nav ul,nav li {
 
 .login_result,.search_result,.sidebar_mynavi{
     width: 300px;
-    /* display: flex; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
 }
-
+.search_button{
+    width:20px;
+    height:20px;
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.search_icon{
+    display: flex;
+    margin-left: 40px;
+}
+.open_icon{
+    display: block;
+    color: white;
+    width:30px;
+    height:30px;
+    position: absolute;
+    left:15px;
+    top:50vh;
+    cursor: pointer;
+}
+.close_icon{
+    color: white;
+    width:30px;
+    height:30px;
+    position: absolute;
+    left:260px;
+    top:50vh;
+    cursor: pointer;
+}
