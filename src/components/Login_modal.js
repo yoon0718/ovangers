@@ -34,15 +34,7 @@ function Login_modal(props){
 
         },
       };
-      //로그인 구현
-    // const receive_login = async () => {
-    //     let userId = document.querySelector("#login_id").value
-    //     let userPassword = document.querySelector("#login_password").value
-    //     const url = `http://10.10.21.64:8080/api/login?userId=${userId}&userPassword=${userPassword}`;
-    //     const ajax = await fetch(url,{method:"Post"});
-    //     const response = await ajax.json();
-    //     alert(response);
-    // }
+
 
     //로그인 세션
     const login_session = async () => {

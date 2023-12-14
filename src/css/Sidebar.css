@@ -38,11 +38,11 @@ nav{
 .main-menu li {
     position:relative;
     display:block;
-    width:300px;
+    width:350px;
 }
 
 .icon_wrapper{
-    width:240px; 
+    width:240px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -80,11 +80,8 @@ nav ul,nav li {
     display: flex;
     color:white;
     align-items: center;
-    width: 300px;
+    width: 350px;
     cursor: pointer;
-}
-.down_icon{
-    margin-right: 30px;
 }
 
 
@@ -94,6 +91,7 @@ nav ul,nav li {
 
 
 .login_result,.search_result,.sidebar_mynavi{
+    padding-top: 20px;
     width: 300px;
     flex-direction: column;
     align-items: center;
@@ -113,20 +111,40 @@ nav ul,nav li {
 }
 .open_icon{
     display: block;
-    color: white;
+    color:white;
     width:30px;
     height:30px;
     position: absolute;
     left:15px;
     top:50vh;
     cursor: pointer;
+    opacity: 0.5;
+}
+.open_icon:hover{
+    opacity: 1;
 }
 .close_icon{
-    color: white;
+    color:white;
     width:30px;
     height:30px;
     position: absolute;
-    left:260px;
+    left:310px;
     top:50vh;
     cursor: pointer;
+    opacity: 0.5;
+}
+.close_icon:hover{
+    opacity: 1;
+}
+.sidebar_menu_btn{
+    height:100%;
+    width:30px;
+    background-color: black;
+}
+#find_addr{
+    width:200px;
+    outline: none;
+    border-radius: 20px;
+    border: 2px solid lightgray;
+    padding-left: 5px;
 }

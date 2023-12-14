@@ -11,11 +11,17 @@ import { Routes, Route } from 'react-router-dom';
 function App(){
     const [loginSwitch,setLoginSwitch] = useState();
     const [accountSwitch,setAccountSwitch] = useState();
-    const [userLat,setUserLat] = useState(34.452613);
-    const [userLng,setUserLng] = useState(126.570888);
+    const [userLat,setUserLat] = useState(35.1587261);
+    const [userLng,setUserLng] = useState(126.7959607);
+    const [findRoute,setFindRoute] = useState(false);
+    let [pointObj, setPointObj] = useState({
+        startPoint: { lat: null, lng: null },
+        endPoint: { lat: null, lng: null },
+        polyline: null
+      });
 
     useEffect(()=>{
-        if(window.sessionStorage.managerCheck != "Y"){
+        if(document.querySelector(".logo") != null){
             setTimeout(()=>{
                 document.querySelector(".logo").style.opacity = "0";
             },1500);
@@ -34,10 +40,12 @@ function App(){
                         <div className='splash'>
                             <Splashscreen/>
                         </div>
-                        <Sidebar userLat={userLat} userLng={userLng} setLoginSwitch={setLoginSwitch} setAccountSwitch={setAccountSwitch}/>
+                        <Sidebar userLat={userLat} userLng={userLng} pointObj={pointObj}
+                            setLoginSwitch={setLoginSwitch}setAccountSwitch={setAccountSwitch} setFindRoute={setFindRoute} setPointObj={setPointObj}/>
                         <Login_modal loginSwitch={loginSwitch} setLoginSwitch={setLoginSwitch}/>
                         <Myaccount_modal accountSwitch={accountSwitch} setAccountSwitch={setAccountSwitch}/>
-                        <KakaoMap userLat={userLat} userLng={userLng} setUserLat={setUserLat} setUserLng={setUserLng}/>
+                        <KakaoMap userLat={userLat} userLng={userLng} pointObj={pointObj} findRoute={findRoute}
+                            setUserLat={setUserLat} setUserLng={setUserLng} setPointObj={setPointObj} setFindRoute={setFindRoute}/>
                     </div>
                 </div>
             }/>

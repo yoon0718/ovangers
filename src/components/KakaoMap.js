@@ -6,12 +6,9 @@ function KakaoMap(props){
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [mapCenter, setMapCenter] = useState("user");
-  let [pointObj, setPointObj] = useState({
-    startPoint: { marker: null, lat: null, lng: null },
-    endPoint: { marker: null, lat: null, lng: null },
-  });
+  const [chargerDetail, setChargerDetail]=useState([]);
 
-  const getChargerData = async (bounds) =>{ // 충전소 정보 받기
+  const getChargerLocationData = async (bounds) =>{ // 충전소 정보 받기
     if (bounds != null) {
       let latStart = bounds.qa;
       let latEnd = bounds.pa;
@@ -21,6 +18,19 @@ function KakaoMap(props){
       const request = await fetch(url);
       const response = await request.json();
       setChargerData(response);
+    }
+  }
+
+  const getChargerData = async (bounds) =>{ // 충전기 정보 받기
+    if (bounds != null) {
+      let latStart = bounds.qa;
+      let latEnd = bounds.pa;
+      let lngStart = bounds.ha;
+      let lngEnd = bounds.oa;
+      let url = `http://10.10.21.64:8080/api/finds?lat_start=${latStart}&lat_end=${latEnd}&lng_start=${lngStart}&lng_end=${lngEnd}`;
+      const request = await fetch(url);
+      const response = await request.json();
+      setChargerDetail(response);
     }
   }
     
@@ -36,52 +46,76 @@ function KakaoMap(props){
     let typeControl = new kakao.maps.MapTypeControl();
     map.addControl(typeControl, kakao.maps.ControlPosition.TOPRIGHT);
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-    kakao.maps.event.addListener(map,"dragstart",()=>{markers.forEach(marker=>{marker.setMap(null)})})
+    kakao.maps.event.addListener(map,"dragstart",()=>{markers.forEach(marker=>{marker.setMap(null)})});
+    kakao.maps.event.addListener(map,"zoom_start",()=>{markers.forEach(marker=>{marker.setMap(null)})});
     kakao.maps.event.addListener(map,"idle",()=>{
+      getChargerLocationData(map.getBounds());
       getChargerData(map.getBounds());
       setMapCenter("free");
     })
   }
 
-    
-
   const createMarker = () => {  // 충전소 마커 및 인포윈도우 생성
-    chargerData.forEach((charger) => {
+    chargerData.forEach((chargerLoc) => {
       var marker = new kakao.maps.Marker({
         map:map, 
-        position: new kakao.maps.LatLng(charger.lat, charger.lng),
-        title:charger.statNm,
+        position: new kakao.maps.LatLng(chargerLoc.lat, chargerLoc.lng),
+        title:chargerLoc.statNm,
         clickable: true,
       });
-      let iwContent =
-        '<div class="wrap">' +
-        '    <div class="info">' +
-        '        <div class="title">' +
-                    charger.statNm +
-        '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-        "        </div>" +
-        '        <div class="body">' +
-        '            <div class="desc">' +
-        '                <div class="ellipsis">'+charger.addr+"<br/>"+charger.location+'</div>' +
-        '                <div class="ellipsis">'+charger.useTime+'</div>' +
-        '                <div class="ellipsis">'+charger.busiNm+ " " +charger.busiCall +'</div>' +
-        '                <div class="ellipsis">'+charger.limitDetail+'</div>' +
-        "                <br>" +
-        "            </div>" +
-        "        </div>" +
-        "    </div>" +
-        "</div>",
-        iwPosition = new kakao.maps.LatLng(charger.lat, charger.lng),
+      let chargerList = `<div class="chargerInfo" style="display:flex">
+        <div class="chargerLocation">상세위치</div>
+        <div class="chargerId">기기번호</div>
+        <div class="chargerType">충전기 타입</div>
+        <div class="chargerOutput">출력전압(kV)</div>
+        <div class="chargerBtn"></div>
+        </div>`
+      let iwContent, iwPosition, iwRemoveable;
+      chargerDetail.forEach(charger =>{
+        if (charger.addr === chargerLoc.addr){
+          chargerList += `<div class="chargerInfo" style="display:flex">
+          <div class="chargerLocation">${charger.location}</div>
+          <div class="chargerId">${charger.stchId}</div>
+          <div class="chargerType">${charger.chgerType.type}</div>
+          <div class="chargerOutput">${charger.output} kV</div>
+          <div class="chargerBtn"><button type="button">고장신고</button></div>
+          </div>`
+        }
+        iwContent =
+        `<div class="wrap">
+            <div class="info">
+                <div class="title">
+                    ${charger.statNm}
+                    <div class="close" onclick="closeOverlay()" title="닫기"></div>
+                </div>
+                <div class="body">
+                    <div class="desc">
+                        <div class="ellipsis">${chargerLoc.addr}</div>
+                        ${chargerList}
+                        <div class="ellipsis">${charger.useTime}</div>
+                        <div class="ellipsis">${charger.busiNm} ${charger.busiCall}</div>
+                        <div class="ellipsis">${charger.limitDetail}</div>
+                        <div class="ellipsis"><button type="button" onClick="{document.querySelector('#find_addr').value='${chargerLoc.addr}'}">길찾기</button></div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        iwPosition = new kakao.maps.LatLng(chargerLoc.lat, chargerLoc.lng);
         iwRemoveable = true;
+      })
       let infowindow = new kakao.maps.InfoWindow({
         position: iwPosition,
         content: iwContent,
         removable: iwRemoveable,
       });
-        kakao.maps.event.addListener(marker, "click", function () {
+      kakao.maps.event.addListener(marker, "click", function () {
         infowindow.open(map, marker);
+        marker.setMap(null);
+        setPoint({ lat: marker.getPosition().Ma, lng: marker.getPosition().La }, "endPoint")
+        setPoint({ lat: props.userLat, lng: props.userLng }, "startPoint")
       });
-      
+
       markers.push(marker);
     })
   }
@@ -103,20 +137,13 @@ function KakaoMap(props){
     if(mapCenter === "user"){map.setCenter(new kakao.maps.LatLng(props.userLat,props.userLng))}
   }
 
-  if (map != null && chargerData.length > 1500){console.log("충전소가 너무 많아요");} // 충전소 개수제한
+  if (map != null && chargerData.length > 500){console.log(chargerData.length);console.log("충전소가 너무 많아요");} // 충전소 개수제한
   else if (map != null) {createMarker();}
 
   function setPoint({ lat, lng }, pointType) { // 길찾기 마커
-    let marker = new kakao.maps.Marker({
-      map:map,
-      position: new kakao.maps.LatLng(lat, lng),
-    });
-    
-    setPointObj((prev) => {
-      if (pointObj[pointType].marker !== null) {
-        prev[pointType].marker.setMap(null);
-      }
-      return { ...prev, [pointType]: { marker, lat, lng } };
+    props.setPointObj((prev) => {
+      if (props.pointObj.polyline != null){prev.polyline.setMap(null);}
+      return { ...prev, [pointType]: { lat, lng } };
     });
   }
 
@@ -140,11 +167,11 @@ function KakaoMap(props){
   }
 
   async function getCarDirection() {
-    let REST_API_KEY = "zz";
+    let REST_API_KEY = "<>";
     let url = "https://apis-navi.kakaomobility.com/v1/directions";
 
-    let origin = `${pointObj.startPoint.lng},${pointObj.startPoint.lat}`;
-    let destination = `${pointObj.endPoint.lng},${pointObj.endPoint.lat}`;
+    let origin = `${props.pointObj.startPoint.lng},${props.pointObj.startPoint.lat}`;
+    let destination = `${props.pointObj.endPoint.lng},${props.pointObj.endPoint.lat}`;
 
     let headers = {
       Authorization: `KakaoAK ${REST_API_KEY}`,
@@ -182,7 +209,7 @@ function KakaoMap(props){
               )
             );
             lineLatLng.push(router.vertexes[index + 1], router.vertexes[index]);
-            if (lineLatLng.length == 4) {
+            if (lineLatLng.length === 4) {
               let dist = distance(
                 lineLatLng[0],
                 lineLatLng[1],
@@ -207,6 +234,7 @@ function KakaoMap(props){
       });
       if (map) {
         polyline.setMap(map);
+        props.setPointObj({startPoint:props.pointObj.startPoint, endPoint:props.pointObj.endPoint ,polyline});
       } else {
         console.error("Map object is not available.");
       }
@@ -215,29 +243,21 @@ function KakaoMap(props){
     }
   }
 
+  if(props.findRoute){
+    if (props.pointObj.polyline != null){props.pointObj.polyline.setMap(null);}
+    markers.forEach(marker=>{marker.setMap(null)})
+    getCarDirection();
+    props.setFindRoute(false);
+  }
+
   useEffect(()=>{
-      createMap();
+    createMap();
   },[])
 
   return(
     <div>
       <div id="map" style={{width:'100vw',height:'97vh', zIndex:0}}></div>
-      <button type="button" onClick={()=>{setMapCenter("user");}}>내 위치로</button>
-      <button
-        onClick={() =>
-          setPoint({ lat: 36.18420278, lng: 127.1009111 }, "startPoint")
-        }
-        >
-        출발지1 지정
-      </button>
-      <button
-        onClick={() =>
-            setPoint({ lat: 36.00568611, lng: 129.3616667 }, "endPoint")
-        }
-        >
-        목적지1 설정
-      </button>
-      <button onClick={() => getCarDirection()}>위치찾기</button>
+      <button type="button" onClick={()=>{setMapCenter("user");}}>현위치</button>
     </div>
   );
 }
