@@ -1,6 +1,11 @@
 import '../css/Sidebar.css'
-import ReportDetail from './ReportDetail'
+import { useEffect, useState } from 'react';
 function Navbar(props) {
+
+
+    const [search,setSearch] = useState([]);
+
+
     //클릭 시 화살표 아이콘 바뀜, 내용 나오게 구현
     const first_sidebar_click = () =>{
         if (document.querySelector(".sidebar_myaccount").style.height == "0px"){
@@ -37,23 +42,6 @@ function Navbar(props) {
         }
     }
 
-    const third_sidebar_click = () => {
-        if (document.querySelector(".sidebar_mynavi").style.height == "0px"){
-            document.querySelector(".sidebar_mynavi").style.height = "auto"
-            document.querySelectorAll(".sidebar_mynavi > *").forEach((element) =>{element.style.display = "flex"})
-            document.getElementById("third_down_icon").innerHTML=`
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-up-square-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4 9h8a.5.5 0 0 0 .374-.832l-4-4.5a.5.5 0 0 0-.748 0l-4 4.5A.5.5 0 0 0 4 11"/>
-                </svg>`
-        } else{
-            document.querySelector(".sidebar_mynavi").style.height = "0px"
-            document.querySelectorAll(".sidebar_mynavi > *").forEach((element) =>{element.style.display = "none"})
-            document.getElementById("third_down_icon").innerHTML=`
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-square-fill" viewBox="0 0 16 16">
-                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4 4a.5.5 0 0 0-.374.832l4 4.5a.5.5 0 0 0 .748 0l4-4.5A.5.5 0 0 0 12 6z"/>
-                </svg>`
-        }
-    }
     const my_id = window.sessionStorage.userId
     const my_point = window.sessionStorage.userPoint
 
@@ -68,15 +56,42 @@ function Navbar(props) {
         const url = `http://10.10.21.64:8080/api/search?addr=${document.querySelector("#find_addr").value}&lat=${props.userLat}&lng=${props.userLng}`
         const ajax = await fetch(url,{method:"Post"}); 
         const response = await ajax.json(); 
-        console.log(response)
+        setSearch(response)
     }
 
     const find_station_login = async() => {
         const url = `http://10.10.21.64:8080/api/search/${window.sessionStorage.userId}?addr=${document.querySelector("#find_addr").value}&lat=${props.userLat}&lng=${props.userLng}`
         const ajax = await fetch(url,{method:"Post"}); 
         const response = await ajax.json(); 
-        console.log(response)
+        setSearch(response)
     }
+
+    const search_result_click = (addr) => { 
+        for(let i=0; i<document.querySelectorAll(".lst_addr").length; i++){
+            document.querySelectorAll(".lst_addr")[i].style.color="white";
+            document.querySelectorAll(".lst_btn")[i].style.display= "none";
+        }
+        document.querySelector("#"+addr).style.color = "red";
+        document.querySelector("#"+addr+"_btn").style.display ="block";
+    }
+
+    let i=0;
+    let login_result = [];
+    search.forEach((lst) => {
+        let repAddr="charger_"+i
+        let btnAddr=repAddr+"_btn"
+        login_result.push(
+            <div className='lst_wrapper' style={{"display":"flex","justifyContent":"space-between"}}>
+            <div className='lst_addr' id={repAddr} onClick={()=>{search_result_click(repAddr);}} style={{"color":"white"}}>{lst.addr}</div>
+            <button className='lst_btn' id={btnAddr}  style={{"width":"30px","height":"30px","background":"none","border":"0","color":"red","display":"none","cursor":"pointer"}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-geo-fill" viewBox="0 0 14 16">
+                    <path fillRule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411"/>
+                </svg>
+            </button>
+            </div>
+        )
+        i++;
+    });
     
     const open_sidebar = () => {
         if (document.querySelector(".close_icon").style.display==="none"){
@@ -97,6 +112,7 @@ function Navbar(props) {
             alert(response)
         }
     }
+
     
     //로그인 안했을때
     if (window.sessionStorage.length <1){
@@ -140,7 +156,7 @@ function Navbar(props) {
                                 </svg>
                             </div>
                         </div>
-                        결과
+                        <div className='login_searchresult'>{login_result}</div>
                     </div>    
                 </div>    
             </li>
@@ -210,13 +226,13 @@ function Navbar(props) {
                                 </svg>
                             </div>
                         </div>
-                        결과
+                        <div className='login_searchresult'>{login_result}</div>
                     </div>    
                 </div>    
             </li>
             <li className="visit_charge">
                 <div className='sidebar_wrapper' onClick={()=>{visit_charge();}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ev-front" viewBox="0 0 18 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-ev-front" viewBox="0 0 18 16">
                     <path d="M9.354 4.243a.188.188 0 0 0-.085-.218.186.186 0 0 0-.23.034L6.051 7.246a.188.188 0 0 0 .136.316h1.241l-.673 2.195a.188.188 0 0 0 .085.218c.075.043.17.03.23-.034l2.88-3.187a.188.188 0 0 0-.137-.316H8.572z"/>
                     <path d="M4.819 2A2.5 2.5 0 0 0 2.52 3.515l-.792 1.848a.807.807 0 0 1-.38.404c-.5.25-.855.715-.965 1.262L.05 8.708a2.5 2.5 0 0 0-.049.49v.413c0 .814.39 1.543 1 1.997V13.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1.338c1.292.048 2.745.088 4 .088s2.708-.04 4-.088V13.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1.892c.61-.454 1-1.183 1-1.997v-.413c0-.165-.016-.329-.049-.49l-.335-1.68a1.807 1.807 0 0 0-.964-1.261.807.807 0 0 1-.381-.404l-.792-1.848A2.5 2.5 0 0 0 11.181 2H4.82ZM3.44 3.91A1.5 1.5 0 0 1 4.82 3h6.362a1.5 1.5 0 0 1 1.379.91l.792 1.847a1.8 1.8 0 0 0 .853.904c.222.112.381.32.43.564l.336 1.679c.02.097.029.195.029.294v.413a1.48 1.48 0 0 1-1.408 1.484c-1.555.07-3.786.155-5.592.155-1.806 0-4.037-.084-5.592-.155A1.479 1.479 0 0 1 1 9.611v-.413c0-.099.01-.197.03-.294l.335-1.68a.807.807 0 0 1 .43-.563c.383-.19.685-.511.853-.904l.792-1.848Z"/>
                 </svg>
@@ -227,8 +243,8 @@ function Navbar(props) {
             </li>
             <li className="visit_board">
                 <div className='sidebar_wrapper' onClick={()=>{window.location.href="/board"}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 18 16">
-                    <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clipboard-check" viewBox="0 0 18 16">
+                    <path fillRule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
                     <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
                     <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
                 </svg>

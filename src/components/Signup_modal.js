@@ -60,7 +60,7 @@ function Signup_Modal(props) {
                         <input id='sign_nickname' type='text' name="nickname" placeholder='ex)박xx'></input>
                         <label>Phone Number</label>
                         <input id='sign_phone' type="text" name="phone" placeholder="010-xxxx-xxxx"></input>
-                        <button className='sign_btn' type="submit" onClick={(e) => {e.preventDefault();  send_signup();}}>회원가입</button>
+                        <button className='sign_btn' type="submit" onClick={(e) => {e.preventDefault();  send_signup();props.setSignUpSwitch(false);}}>회원가입</button>
                     </form>
                 </div>
             </div>

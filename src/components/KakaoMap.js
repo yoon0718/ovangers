@@ -140,7 +140,7 @@ function KakaoMap(props){
   }
 
   async function getCarDirection() {
-    let REST_API_KEY = "354ebb51fff8888b6d61e79d5cf7d461";
+    let REST_API_KEY = "zz";
     let url = "https://apis-navi.kakaomobility.com/v1/directions";
 
     let origin = `${pointObj.startPoint.lng},${pointObj.startPoint.lat}`;
