@@ -154,7 +154,7 @@ function ReportDetail(){
                 <br/>
                 <div><button className="charge" onClick={()=> sidebarClick("refresh")}>충전소 데이터 갱신</button></div>
                 <br/>
-                <div><img className='home_img' src={logo} alt="메인페이지" onClick={mainPage}></img></div>
+                <div className='asddd'><img className='home_img' src={logo} alt="메인페이지" onClick={mainPage}></img></div>
             </div>
             <div className="content">
                 <span>{content}</span>
