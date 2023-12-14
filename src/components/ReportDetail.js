@@ -148,16 +148,16 @@ function ReportDetail(){
         </div>
         <div className="container">
             <div className="sidebar">
-                <div><button className="rq" onClick={()=> {data(); sidebarClick("request"); }}>방문충전신청내역</button></div>
+                <div><button className="rq" onClick={()=> {data(); sidebarClick("request");}}>방문충전신청내역</button></div>
                 <br/>
                 <div><button className="break" onClick={()=> {data2(); sidebarClick("report");}}>고장 신고 내역</button></div>
                 <br/>
                 <div><button className="charge" onClick={()=> sidebarClick("refresh")}>충전소 데이터 갱신</button></div>
                 <br/>
-                <div><img className='home_img' src={logo} alt="메인페이지" onClick={mainPage}></img></div>
+                <div className='asddd'><img className='home_img' src={logo} alt="메인페이지" onClick={mainPage}></img></div>
             </div>
             <div className="content">
-                <span><table>{content}</table></span>
+                <span>{content}</span>
             </div>
         </div>
   </div>
