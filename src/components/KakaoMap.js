@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import "../css/customoverlay.css"
 const {kakao} = window;
 function KakaoMap(props){
   const [chargerData,setChargerData] = useState([]);
@@ -55,47 +55,65 @@ function KakaoMap(props){
     })
   }
 
-  const createMarker = () => {  // 충전소 마커 및 인포윈도우 생성
+  const createMarker = () => {
+    // 충전소 마커 및 인포윈도우 생성
     chargerData.forEach((chargerLoc) => {
       var marker = new kakao.maps.Marker({
-        map:map, 
+        map: map,
         position: new kakao.maps.LatLng(chargerLoc.lat, chargerLoc.lng),
-        title:chargerLoc.statNm,
+        title: chargerLoc.statNm,
         clickable: true,
       });
-      let chargerList = `<div class="chargerInfo" style="display:flex">
-        <div class="chargerLocation">상세위치</div>
-        <div class="chargerId">기기번호</div>
-        <div class="chargerType">충전기 타입</div>
-        <div class="chargerOutput">출력전압(kV)</div>
-        <div class="chargerBtn"></div>
-        </div>`
+      let chargerList = `<tr>
+      <th class="infotable">상세위치</th>
+      <th class="infotable">기기번호</th>
+      <th class="infotable">충전기 타입</th>
+      <th class="infotable">출력전압(kV)</th>
+      <th class="infotable"></th>
+    </tr>
+`;
       let iwContent, iwPosition, iwRemoveable;
-      chargerDetail.forEach(charger =>{
-        if (charger.addr === chargerLoc.addr){
-          chargerList += `<div class="chargerInfo" style="display:flex">
-          <div class="chargerLocation">${charger.location}</div>
-          <div class="chargerId">${charger.stchId}</div>
-          <div class="chargerType">${charger.chgerType.type}</div>
-          <div class="chargerOutput">${charger.output} kV</div>
-          <div class="chargerBtn"><button type="button">고장신고</button></div>
-          </div>`
+      chargerDetail.forEach((charger) => {
+        if (charger.addr === chargerLoc.addr) {
+          chargerList += `<tr>
+          <td class="infotable">${charger.location}</td>
+          <td class="infotable">${charger.stchId}</td>
+          <td class="infotable">${charger.chgerType.type}</td>
+          <td class="infotable">${charger.output} kV</td>
+          <td class="infotable"><button class="custombt" type="button" onClick="{window.open('/breakdown/${charger.stchId}/${window.sessionStorage.userId}','report_page','popup=true,width=300,height=200,left=500,top=500')}">고장신고</button></td>
+        </tr>
+`;
         }
-        iwContent =
-        `<div class="wrap">
+        iwContent = `<div class=wrapCustom${parseInt(
+          chargerLoc.lat * 10000
+        )}${parseInt(chargerLoc.lng * 10000)}>
             <div class="info">
                 <div class="title">
                     ${charger.statNm}
-                    <div class="close" onclick="closeOverlay()" title="닫기"></div>
+                    <div class="close" onclick="document.querySelector('.wrapCustom${parseInt(
+                      chargerLoc.lat * 10000
+                    )}${parseInt(
+          chargerLoc.lng * 10000
+        )}').parentNode.remove()" title="닫기">X</div>
                 </div>
                 <div class="body">
                     <div class="desc">
                         <div class="ellipsis">${chargerLoc.addr}</div>
-                        ${chargerList}
+                        <div class="charger_table">
+                          <table>
+                          ${chargerList}
+                          </table>
+                        </div>
                         <div class="ellipsis">${charger.useTime}</div>
-                        <div class="ellipsis">${charger.busiNm} ${charger.busiCall}</div>
+                        <div class="ellipsis">${charger.busiNm} ${
+          charger.busiCall
+        }</div>
                         <div class="ellipsis">${charger.limitDetail}</div>
-                        <div class="ellipsis"><button type="button" onClick="{document.querySelector('#find_addr').value='${chargerLoc.addr}'}">길찾기</button></div>
+                        <div class="ellipsis"><button class="custombt" type="button" onClick="
+                        {document.querySelector('#find_addr').value='${chargerLoc.addr}'};
+                        document.querySelector('.main-menu').style.width='400px';
+                        document.querySelector('.sidebar_mysearch').style.height='auto';
+                        document.querySelector('.search_result').style.display='flex';">길찾기</button></div>
                         <br>
                     </div>
                 </div>
@@ -103,14 +121,17 @@ function KakaoMap(props){
         </div>`;
         iwPosition = new kakao.maps.LatLng(chargerLoc.lat, chargerLoc.lng);
         iwRemoveable = true;
-      })
-      let infowindow = new kakao.maps.InfoWindow({
+      });
+      let infowindow = new kakao.maps.CustomOverlay({
+        clickable: true,
         position: iwPosition,
         content: iwContent,
         removable: iwRemoveable,
+        zIndex: 3,
+        yAnchor: 1,
       });
       kakao.maps.event.addListener(marker, "click", function () {
-        infowindow.open(map, marker);
+        infowindow.setMap(map);
         marker.setMap(null);
         setPoint({ lat: marker.getPosition().Ma, lng: marker.getPosition().La }, "endPoint")
         setPoint({ lat: props.userLat, lng: props.userLng }, "startPoint")
@@ -167,7 +188,7 @@ function KakaoMap(props){
   }
 
   async function getCarDirection() {
-    let REST_API_KEY = "441d60725280b9a5b707543bd6200b74";
+    let REST_API_KEY = "";
     let url = "https://apis-navi.kakaomobility.com/v1/directions";
 
     let origin = `${props.pointObj.startPoint.lng},${props.pointObj.startPoint.lat}`;
@@ -256,8 +277,13 @@ function KakaoMap(props){
 
   return(
     <div>
-      <div id="map" style={{width:'100vw',height:'97vh', zIndex:0}}></div>
-      <button type="button" onClick={()=>{setMapCenter("user");}}>현위치</button>
+      <div id="map" style={{width:'100vw',height:'100vh', zIndex:0,"overflow":"hidden"}}></div>
+      
+      <button type="now_button" style={{"position":"absolute","top":"26vh","right":"0.2vw","background":"white","color":"black","border":"0","cursor":"pointer"}} onClick={()=>{setMapCenter("user");}}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-crosshair" viewBox="0 0 16 16">
+        <path d="M8.5.5a.5.5 0 0 0-1 0v.518A7.001 7.001 0 0 0 1.018 7.5H.5a.5.5 0 0 0 0 1h.518A7.001 7.001 0 0 0 7.5 14.982v.518a.5.5 0 0 0 1 0v-.518A7.001 7.001 0 0 0 14.982 8.5h.518a.5.5 0 0 0 0-1h-.518A7.001 7.001 0 0 0 8.5 1.018zm-6.48 7A6.001 6.001 0 0 1 7.5 2.02v.48a.5.5 0 0 0 1 0v-.48a6.001 6.001 0 0 1 5.48 5.48h-.48a.5.5 0 0 0 0 1h.48a6.002 6.002 0 0 1-5.48 5.48v-.48a.5.5 0 0 0-1 0v.48A6.001 6.001 0 0 1 2.02 8.5h.48a.5.5 0 0 0 0-1h-.48M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+      </svg>
+      </button>
     </div>
   );
 }

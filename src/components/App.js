@@ -6,6 +6,7 @@ import Splashscreen from './Splashscreen';
 import Myaccount_modal from './Myaccount_modal';
 import KakaoMap from './KakaoMap';
 import ReportDetail from './ReportDetail';
+import GateWay from './GateWay';
 import { Routes, Route } from 'react-router-dom';
 
 function App(){
@@ -50,6 +51,7 @@ function App(){
                 </div>
             }/>
             <Route path='/board' element={<ReportDetail/>}/>
+            <Route path="/breakdown/:stchId/:sessionId" element={<GateWay/>}/>
         </Routes>
     )
 } else{

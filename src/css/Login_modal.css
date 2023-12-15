@@ -1,8 +1,7 @@
 .wrapper{
-    width: 25vw;
+    width: 19.7vw;
     height:50vh;
     display: flex;
-
     justify-content: center;
 }
 .form-box{
@@ -12,12 +11,12 @@
     background-color: white;
     /* background: transparent;  투명하게*/
     /* backdrop-filter: blur(50px); */
-    border: 3px solid black;
+    /* border: 3px solid black; */
     border-radius: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 15px 15px 17px rgba(0,0,0,0.5);
+    /* box-shadow: 15px 15px 17px rgba(0,0,0,0.5); */
 }
 h2{
     font-size: 2em;
@@ -82,6 +81,6 @@ h2{
 
 .bi.bi-x{
     position:relative;
-    left: 24vw;
+    left: 18vw;
     cursor: pointer;
 }

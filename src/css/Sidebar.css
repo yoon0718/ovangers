@@ -31,6 +31,7 @@ nav{
     z-index: 2;
 }
 
+
 .main-menu>ul {
     margin:10px 0;
 }
@@ -88,7 +89,21 @@ nav ul,nav li {
 .sidebar_myaccount > *,.sidebar_mysearch > *,.sidebar_mynavi > *{
     display: none;
 }
-
+.login_result{
+    color:white;
+}
+.myaccount_btn{
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 100px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.myaccount_btn:hover{
+    border: 1px solid lightgray;
+    background-color: lightgray;
+}
 
 .login_result,.search_result,.sidebar_mynavi{
     padding-top: 20px;

@@ -42,7 +42,7 @@ function Navbar(props) {
         }
     }
 
-    const my_id = window.sessionStorage.userId
+    const my_id = window.sessionStorage.userNickname
     const my_point = window.sessionStorage.userPoint
 
     const logout = () => {
@@ -220,9 +220,9 @@ function Navbar(props) {
                     </div>
                     <div className='sidebar_myaccount' style={{"height":"0"}}>
                         <div className='login_result'>
-                            ID : {my_id}<br/>
+                            닉네임 : {my_id} &nbsp;&nbsp;&nbsp;
                             포인트 : {my_point}<br/>
-                            <button type='submit' onClick={()=>{props.setAccountSwitch(true);}}>회원정보수정</button>
+                            <button className="myaccount_btn" type='submit' onClick={()=>{props.setAccountSwitch(true);}}>회원정보수정</button>
                         </div>    
                     </div>  
                 </li>

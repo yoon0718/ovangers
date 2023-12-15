@@ -1,14 +1,11 @@
 .form-box2{
     position: relative;
-    width: 35vw;
+    width: 24.5vw;
     height: 65vh;
     background-color: white;
-    border: 3px solid black;
-    border-radius: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 15px 15px 17px rgba(0,0,0,0.5);
     left: 2vw;
 }
 
@@ -59,6 +56,6 @@
 }
 .bi.bi-x-lg{
     position:relative;
-    left: 39.2vw;
+    left: 26.5vw;
     cursor: pointer;
 }
