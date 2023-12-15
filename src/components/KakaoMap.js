@@ -110,10 +110,13 @@ function KakaoMap(props){
         }</div>
                         <div class="ellipsis">${charger.limitDetail}</div>
                         <div class="ellipsis"><button class="custombt" type="button" onClick="
-                        {document.querySelector('#find_addr').value='${chargerLoc.addr}'};
-                        document.querySelector('.main-menu').style.width='400px';
+                        {document.querySelector('#find_addr').value='${chargerLoc.addr}';
+                        document.querySelector('.main-menu').style.width='350px';
                         document.querySelector('.sidebar_mysearch').style.height='auto';
-                        document.querySelector('.search_result').style.display='flex';">길찾기</button></div>
+                        document.querySelector('.search_result').style.display='flex';
+                        document.querySelector('.open_icon').style.display = 'none';
+                        document.querySelector('.close_icon').style.display = 'block';
+                        }">길찾기</button></div>
                         <br>
                     </div>
                 </div>
@@ -135,6 +138,12 @@ function KakaoMap(props){
         marker.setMap(null);
         setPoint({ lat: marker.getPosition().Ma, lng: marker.getPosition().La }, "endPoint")
         setPoint({ lat: props.userLat, lng: props.userLng }, "startPoint")
+      });
+      kakao.maps.event.addListener(map,"dragstart", function(){
+        let bounds = map.getBounds()
+        if(bounds.qa > chargerLoc.lat || chargerLoc.lat > bounds.pa || bounds.ha > chargerLoc.lng || chargerLoc.lng > bounds.oa){
+          infowindow.setMap(null);
+        }
       });
 
       markers.push(marker);

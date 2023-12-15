@@ -71,7 +71,7 @@ function Navbar(props) {
             document.querySelectorAll(".lst_addr")[i].style.color="white";
             document.querySelectorAll(".lst_btn")[i].style.display= "none";
         }
-        document.querySelector("#"+addr).style.color = "red";
+        document.querySelector("#"+addr).style.color = "orange";
         document.querySelector("#"+addr+"_btn").style.display ="block";
     }
 

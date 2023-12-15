@@ -32,30 +32,30 @@ function App(){
         }
     },[]);
     
-    if(window.sessionStorage.managerCheck != "Y"){
-    return(
-        <Routes>
-            <Route path="/" element={
-                <div>
-                    <div className='main_map_page'>
-                        <div className='splash'>
-                            <Splashscreen/>
+    if(!(['A','CM','RM'].includes(window.sessionStorage.managerCheck))){
+        return(
+            <Routes>
+                <Route path="/" element={
+                    <div>
+                        <div className='main_map_page'>
+                            <div className='splash'>
+                                <Splashscreen/>
+                            </div>
+                            <Sidebar userLat={userLat} userLng={userLng} pointObj={pointObj}
+                                setLoginSwitch={setLoginSwitch}setAccountSwitch={setAccountSwitch} setFindRoute={setFindRoute} setPointObj={setPointObj}/>
+                            <Login_modal loginSwitch={loginSwitch} setLoginSwitch={setLoginSwitch}/>
+                            <Myaccount_modal accountSwitch={accountSwitch} setAccountSwitch={setAccountSwitch}/>
+                            <KakaoMap userLat={userLat} userLng={userLng} pointObj={pointObj} findRoute={findRoute}
+                                setUserLat={setUserLat} setUserLng={setUserLng} setPointObj={setPointObj} setFindRoute={setFindRoute}/>
                         </div>
-                        <Sidebar userLat={userLat} userLng={userLng} pointObj={pointObj}
-                            setLoginSwitch={setLoginSwitch}setAccountSwitch={setAccountSwitch} setFindRoute={setFindRoute} setPointObj={setPointObj}/>
-                        <Login_modal loginSwitch={loginSwitch} setLoginSwitch={setLoginSwitch}/>
-                        <Myaccount_modal accountSwitch={accountSwitch} setAccountSwitch={setAccountSwitch}/>
-                        <KakaoMap userLat={userLat} userLng={userLng} pointObj={pointObj} findRoute={findRoute}
-                            setUserLat={setUserLat} setUserLng={setUserLng} setPointObj={setPointObj} setFindRoute={setFindRoute}/>
                     </div>
-                </div>
-            }/>
-            <Route path='/board' element={<ReportDetail/>}/>
-            <Route path="/breakdown/:stchId/:sessionId" element={<GateWay/>}/>
-        </Routes>
-    )
-} else{
-    return (<ReportDetail/>)
+                }/>
+                <Route path='/board' element={<ReportDetail/>}/>
+                <Route path="/breakdown/:stchId/:sessionId" element={<GateWay/>}/>
+            </Routes>
+        )
+    } else{
+        return (<ReportDetail/>)
     }
 }
 export default App;
