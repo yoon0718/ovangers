@@ -78,15 +78,15 @@ function KakaoMap(props){
           <div class="chargerId">${charger.stchId}</div>
           <div class="chargerType">${charger.chgerType.type}</div>
           <div class="chargerOutput">${charger.output} kV</div>
-          <div class="chargerBtn"><button type="button">고장신고</button></div>
+          <div class="chargerBtn"><button type="button" onClick="{window.open('/breakdown/${charger.stchId}/${window.sessionStorage.userId}','report_page','popup=true,width=300,height=200,left=500,top=500');}">고장신고</button></div>
           </div>`
         }
         iwContent =
-        `<div class="wrap">
+        `<div class=wrapCustom${parseInt(chargerLoc.lat*10000)}${parseInt(chargerLoc.lng*10000)}>
             <div class="info">
                 <div class="title">
                     ${charger.statNm}
-                    <div class="close" onclick="closeOverlay()" title="닫기"></div>
+                    <div class="close" onclick="document.querySelector('.wrapCustom${parseInt(chargerLoc.lat*10000)}${parseInt(chargerLoc.lng*10000)}').parentNode.remove()" title="닫기">X</div>
                 </div>
                 <div class="body">
                     <div class="desc">
@@ -104,13 +104,14 @@ function KakaoMap(props){
         iwPosition = new kakao.maps.LatLng(chargerLoc.lat, chargerLoc.lng);
         iwRemoveable = true;
       })
-      let infowindow = new kakao.maps.InfoWindow({
+      let infowindow = new kakao.maps.CustomOverlay({
+        clickable:true,
         position: iwPosition,
         content: iwContent,
         removable: iwRemoveable,
       });
       kakao.maps.event.addListener(marker, "click", function () {
-        infowindow.open(map, marker);
+        infowindow.setMap(map);
         marker.setMap(null);
         setPoint({ lat: marker.getPosition().Ma, lng: marker.getPosition().La }, "endPoint")
         setPoint({ lat: props.userLat, lng: props.userLng }, "startPoint")
@@ -167,7 +168,7 @@ function KakaoMap(props){
   }
 
   async function getCarDirection() {
-    let REST_API_KEY = "개인API";
+    let REST_API_KEY = "개인 REST API Key";
     let url = "https://apis-navi.kakaomobility.com/v1/directions";
 
     let origin = `${props.pointObj.startPoint.lng},${props.pointObj.startPoint.lat}`;

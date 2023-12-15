@@ -7,6 +7,7 @@ import Myaccount_modal from './Myaccount_modal';
 import KakaoMap from './KakaoMap';
 import ReportDetail from './ReportDetail';
 import { Routes, Route } from 'react-router-dom';
+import GateWay from './GateWay';
 
 function App(){
     const [loginSwitch,setLoginSwitch] = useState();
@@ -50,6 +51,7 @@ function App(){
                 </div>
             }/>
             <Route path='/board' element={<ReportDetail/>}/>
+            <Route path="/breakdown/:stchId/:sessionId" element={<GateWay/>}/>
         </Routes>
     )
 } else{
