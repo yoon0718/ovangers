@@ -113,9 +113,11 @@ function KakaoMap(props){
                         {document.querySelector('#find_addr').value='${chargerLoc.addr}';
                         document.querySelector('.main-menu').style.width='350px';
                         document.querySelector('.sidebar_mysearch').style.height='auto';
+                        document.querySelector('.sidebar_mysearch').style.display='block';
                         document.querySelector('.search_result').style.display='flex';
                         document.querySelector('.open_icon').style.display = 'none';
                         document.querySelector('.close_icon').style.display = 'block';
+                        if(document.querySelector('.sidebar_myaccount')!=null){document.querySelector('.sidebar_myaccount').style.display='block';}
                         }">길찾기</button></div>
                         <br>
                     </div>
