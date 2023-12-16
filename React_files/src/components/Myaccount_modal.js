@@ -24,11 +24,12 @@ function Myaccount_modal(props){
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        borderRadius: "10px",
-        boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
         backgroundColor: "white",
         justifyContent: "center",
         overflow: "hidden",
+        borderRadius: "50px",
+        boxShadow: "15px 15px 17px rgba(0,0,0,0.5)",
+        border : "2.5px solid hotpink"
       },
     };
   useEffect(()=>{
@@ -62,14 +63,19 @@ function Myaccount_modal(props){
 
   return(
     <ReactModal isOpen={props.accountSwitch} style={modal_style} ariaHideApp={false}>
-        <div className="setaccount_div">
-            <form className="setaccount_form">
-                <input id="userEmail" onChange={e=>{set_my_email(e.target.value); window.sessionStorage.setItem("userEmail",e.target.value)}}></input><br/>
-                <input id="userTelephone" onChange={e=>{set_my_telephone(e.target.value); window.sessionStorage.setItem("userTelephone",e.target.value)}}></input><br/>
-                <input id="userNickname" onChange={e=>{set_my_nickname(e.target.value); window.sessionStorage.setItem("userNickname",e.target.value)}}></input><br/>
-                <input type="submit" onClick={(e)=>{e.preventDefault(); props.setAccountSwitch(false); update_account();}}></input>
-                <input type="submit" value={"회원탈퇴"} onClick={(e)=>{e.preventDefault(); delete_account();}}></input>
-            </form>
+        <div className="setaccount_box">
+          <div className="setaccount_div">
+              <form className="setaccount_form">
+                  <label>Email</label>
+                  <input id="userEmail" onChange={e=>{set_my_email(e.target.value); window.sessionStorage.setItem("userEmail",e.target.value)}}></input>
+                  <label>Phone Number</label>
+                  <input id="userTelephone" onChange={e=>{set_my_telephone(e.target.value); window.sessionStorage.setItem("userTelephone",e.target.value)}}></input>
+                  <label>NickName</label>
+                  <input id="userNickname" onChange={e=>{set_my_nickname(e.target.value); window.sessionStorage.setItem("userNickname",e.target.value)}}></input>
+                  <input id="sub" type="submit" onClick={(e)=>{e.preventDefault(); props.setAccountSwitch(false); update_account();}}></input>
+                  <input id="withdrawal" type="submit" value={"회원탈퇴"} onClick={(e)=>{e.preventDefault(); delete_account();}}></input>
+              </form>
+          </div>
         </div>
     </ReactModal>
   )

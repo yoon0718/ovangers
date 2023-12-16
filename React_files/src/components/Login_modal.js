@@ -16,33 +16,25 @@ function Login_modal(props){
           height: "100%",
           position: "fixed",
           top: "0",
-          left: "0",          
+          left: "0",
         },
         content: {
-          width: "25vw",
+          width: "22vw",
           height: "50vh",
           zIndex: "150",
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          borderRadius: "10px",
-          boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
           backgroundColor: "white",
           justifyContent: "center",
           overflow: "hidden",
-
+          borderRadius: "50px",
+          boxShadow: "15px 15px 17px rgba(0,0,0,0.5)",
+          border : "2.5px solid hotpink"
         },
       };
-      //로그인 구현
-    // const receive_login = async () => {
-    //     let userId = document.querySelector("#login_id").value
-    //     let userPassword = document.querySelector("#login_password").value
-    //     const url = `http://10.10.21.64:8080/api/login?userId=${userId}&userPassword=${userPassword}`;
-    //     const ajax = await fetch(url,{method:"Post"});
-    //     const response = await ajax.json();
-    //     alert(response);
-    // }
+
 
     //로그인 세션
     const login_session = async () => {

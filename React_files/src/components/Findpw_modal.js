@@ -18,19 +18,19 @@ function Findpw_modal(props){
           left: "0",          
         },
         content: {
-          width: "40vw",
+          width: "30vw",
           height: "70vh",
           zIndex: "150",
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          borderRadius: "10px",
-          boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
           backgroundColor: "white",
           justifyContent: "center",
           overflow: "hidden",
-
+          borderRadius: "50px",
+          boxShadow: "15px 15px 17px rgba(0,0,0,0.5)",
+          border : "2.5px solid hotpink"
         },
       };
 
@@ -63,6 +63,7 @@ function Findpw_modal(props){
             const response = await ajax.text();
             alert(response)
             props.setFindPwSwitch(false)
+            setMode(["check",""])
         } else{
             alert('다시입력하세요');
         }
@@ -94,7 +95,7 @@ function Findpw_modal(props){
                         <input id='new_pw' type="password"></input>
                         <label>비밀번호 확인</label>
                         <input id='check_pw' type="password"></input>
-                        <button className='change_btn' type="submit" onClick={(e) => {e.preventDefault();update();}}>비밀번호 수정완료</button>
+                        <button className='change_btn' type="submit" onClick={(e) => {e.preventDefault();update();}}>비밀번호 수정</button>
                     </form>
                 </div>
             </div>;
