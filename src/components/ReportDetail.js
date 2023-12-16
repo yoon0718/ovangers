@@ -162,7 +162,7 @@ function ReportDetail(){
                                 <td width="380" style={{"wordBreak":"break-all"}} >{data.addr}</td>
                                 <td width="110"><button className='request_btn' onClick={()=>{if(window.confirm("취소하시겠습니까?")){rmdata_del(data.postNum);}}}>취소</button></td>
                                 <td width="110"><button className='request_btn' onClick={()=>{rmdata(data.postNum);}}>접수</button></td>
-                                <td width="110"><button className="report_btn" onClick={()=>reportClick(data.postNum,data.userId.userId)}>완료</button></td>
+                                <td width="110"><button className="report_btn" onClick={()=>{reportClick(data.postNum);}}>완료</button></td>
                             </tr>)
                 })
                 setContent(datalist2);
