@@ -23,6 +23,9 @@ public class ChargerReport {
     @JoinColumn(name = "userId")
     private User userId;
 
+    private String bnm;
+    private String postInnerDate;
     private String postStartDate;
     private String postEndDate;
+    private String addr;
 }

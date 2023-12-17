@@ -19,8 +19,10 @@ public class ApplyCharge {
     @JoinColumn(name = "userId")
     private User userId;
     
+    private String bnm;
     private float lat;
     private float lng;
+    private String postInnerDate;
     private String postStartDate;
     private String postEndDate;
 }

@@ -37,7 +37,7 @@ public class SearchController {
     ) {
         if (addr.replace(" ", "") != "") {
             List<Map<String,Object>> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng);
-            
+
             Search saveSearch = new Search();
             saveSearch.setUserId(userRepository.findByUserId(sessionId));
             saveSearch.setStart("현위치");
@@ -62,15 +62,11 @@ public class SearchController {
         if (addr.replace(" ", "") != "") {
             List<Map<String,Object>> search = chargerMapRepository.findChargerMapWithinRadius(addr, lat, lng);
 
-            Search saveSearch = new Search();
-            saveSearch.setStart("현위치");
-            saveSearch.setEnd(addr);
-            searchRepository.save(saveSearch);
-
             return search;
         }
         else {
             List<Map<String,Object>> empty = new ArrayList<>();
+
             return empty;
         }
     }
@@ -81,7 +77,7 @@ public class SearchController {
         List<Search> searchList = new ArrayList<>();
         List<Search> userId = searchRepository.findByUserId_UserId(sessionId);
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = searchRepository.findByUserId_UserId(sessionId).size()-1; i > searchRepository.findByUserId_UserId(sessionId).size()-11; i--) {
             Search search = new Search();
             search.setSeq(userId.get(i).getSeq());
             search.setStart(userId.get(i).getStart());

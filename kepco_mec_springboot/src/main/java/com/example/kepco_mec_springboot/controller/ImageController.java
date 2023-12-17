@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ImageController {
-
-    // static의 이미지 전송
     @GetMapping("/api/images/{image}")
     public ResponseEntity<byte[]> goImages(@PathVariable String image) throws IOException {
         Resource resource = new ClassPathResource("/static/images/" + image);

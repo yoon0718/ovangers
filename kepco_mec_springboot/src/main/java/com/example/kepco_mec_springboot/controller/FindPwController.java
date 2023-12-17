@@ -1,7 +1,5 @@
 package com.example.kepco_mec_springboot.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,11 +24,14 @@ public class FindPwController {
         @RequestParam("userEmail") String userEmail
     ) {
         User userInfoI = userRepository.findByUserId(userId);
-        List<User> userInfoP = userRepository.findByUserTelephone(userTelephone);
-        List<User> userInfoE = userRepository.findByUserEmail(userEmail);
 
-        if (userInfoI != null & userInfoP.size()>0 & userInfoE.size()>0) {
-            return true;
+        if (userInfoI != null) {
+            if (userInfoI.getUserTelephone().equals(userTelephone) & userInfoI.getUserEmail().equals(userEmail)) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         else {
             return false;

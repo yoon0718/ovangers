@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kepco_mec_springboot.model.User;
 import com.example.kepco_mec_springboot.repository.UserRepository;
 
+// 회원가입
 @RestController
 @CrossOrigin(origins = "*")
 public class AccountController {
     @Autowired
     UserRepository userRepository;
 
-    // 회원가입
     @PostMapping("/api/account")
     public String insertAccount(
         @RequestParam("userId") String userId,
@@ -25,7 +25,12 @@ public class AccountController {
         @RequestParam("userTelephone") String userTelephone
     ) {
         if (userRepository.findByUserId(userId) == null) {
-            if (userId.isBlank() == false & userId.replace(" ", "") == userId) {
+            if (userId.isBlank() == false &
+            userId.replace(" ", "").equals(userId) &
+            userPassword.isBlank() == false &
+            userPassword.replace(" ", "").equals(userPassword) &
+            userId.equals("undefined") == false
+            ) {
                 User userInfo = new User();
                 userInfo.setUserId(userId);
                 userInfo.setUserPassword(userPassword);
@@ -33,7 +38,7 @@ public class AccountController {
                 userInfo.setUserTelephone(userTelephone);
                 userInfo.setUserNickname(userNickname);
                 userInfo.setUserPoint(0);
-                userInfo.setManagerCheck("N");
+                userInfo.setManagerCheck("U");
                 userRepository.save(userInfo);
 
                 return "회원가입 성공";

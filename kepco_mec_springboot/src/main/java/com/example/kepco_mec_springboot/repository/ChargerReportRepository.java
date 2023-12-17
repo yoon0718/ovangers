@@ -13,6 +13,6 @@ import com.example.kepco_mec_springboot.model.User;
 @Repository
 public interface ChargerReportRepository extends JpaRepository<ChargerReport,Integer> {
     List<ChargerReport> findByPostNum(int postNum);
-    List<ChargerReport> findByStchId(ChargerMap stchId);
     List<ChargerReport> findByUserId(User userId);
+    List<ChargerReport> findByStchId(ChargerMap stchId);
 }
