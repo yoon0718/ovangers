@@ -73,6 +73,7 @@ function KakaoMap(props){
     </tr>
 `;
       let iwContent, iwPosition, iwRemoveable;
+      let statNm=""
       chargerDetail.forEach((charger) => {
         if (charger.addr === chargerLoc.addr) {
           chargerList += `<tr>
@@ -81,15 +82,15 @@ function KakaoMap(props){
           <td class="infotable">${charger.chgerType.type}</td>
           <td class="infotable">${charger.output} kV</td>
           <td class="infotable"><button class="custombt" type="button" onClick="{window.open('/breakdown/${charger.stchId}/${window.sessionStorage.userId}','report_page','popup=true,width=300,height=200,left=500,top=500')}">고장신고</button></td>
-        </tr>
-`;
+        </tr>`;
+        statNm=charger.statNm
         }
         iwContent = `<div class=wrapCustom${parseInt(
           chargerLoc.lat * 10000
         )}${parseInt(chargerLoc.lng * 10000)}>
             <div class="info">
                 <div class="title">
-                    ${charger.statNm}
+                    ${statNm}
                     <div class="close" onclick="document.querySelector('.wrapCustom${parseInt(
                       chargerLoc.lat * 10000
                     )}${parseInt(
@@ -199,7 +200,7 @@ function KakaoMap(props){
   }
 
   async function getCarDirection() {
-    let REST_API_KEY = "";
+    let REST_API_KEY = "3920d0be16dc56a47ffb7d08d382bbf4";
     let url = "https://apis-navi.kakaomobility.com/v1/directions";
 
     let origin = `${props.pointObj.startPoint.lng},${props.pointObj.startPoint.lat}`;
