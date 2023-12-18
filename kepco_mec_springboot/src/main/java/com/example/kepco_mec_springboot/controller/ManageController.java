@@ -49,7 +49,7 @@ public class ManageController {
         List<ApplyCharge> applyChargeList = new ArrayList<>();
         
         if (userRepository.findByUserId(sessionId).getManagerCheck().equals("A") || userRepository.findByUserId(sessionId).getManagerCheck().equals("CM")) {
-            for (int i=0; i<applyChargeRepository.findAll().size(); i++) {
+            for (int i = applyChargeRepository.findAll().size()-1; i >= 0; i--) {
                 User user = new User();
                 user.setUserId(applyChargeRepository.findAll().get(i).getUserId().getUserId());
 
@@ -71,7 +71,7 @@ public class ManageController {
             User user = new User();
             user.setUserId(userRepository.findByUserId(sessionId).getUserId());
 
-            for (int i=0; i<applyChargeRepository.findByUserId(user).size(); i++) {
+            for (int i = applyChargeRepository.findByUserId(user).size()-1; i >= 0; i--) {
                 ApplyCharge applyCharge = new ApplyCharge();
                 applyCharge.setPostNumber(applyChargeRepository.findByUserId(user).get(i).getPostNumber());
                 applyCharge.setUserId(user);
@@ -162,7 +162,7 @@ public class ManageController {
     public List<ChargerReport> selectDown() {
         List<ChargerReport> chargerReportList = new ArrayList<>();
     
-        for (int i = 0; i < chargerReportRepository.findAll().size(); i++) {
+        for (int i = chargerReportRepository.findAll().size()-1; i >= 0 ; i--) {
             User user = new User();
             user.setUserId(chargerReportRepository.findAll().get(i).getUserId().getUserId());
 
@@ -176,7 +176,7 @@ public class ManageController {
             chargerReport.setPostEndDate(chargerReportRepository.findAll().get(i).getPostEndDate());
             chargerReport.setBnm(chargerReportRepository.findAll().get(i).getBnm());
             chargerReportList.add(chargerReport);
-        } 
+        }
         return chargerReportList;
     }
 
@@ -257,12 +257,11 @@ public class ManageController {
                     return "완료된 신고는 삭제할 수 없습니다.";
                 }
             } else {
-                return "접수 업체에서만 처리할 수 있습니다.";
+                return "담당 업체만 취소할 수 있습니다.";
             }
         } else {
             return "접수부터 진행해주세요";
         }
-        
     }
 
     // 포인트 지급 내역
@@ -271,7 +270,7 @@ public class ManageController {
         List<Point> pointList = new ArrayList<>();
 
         if (userId.equals("admin") == true) {
-            for (int i=0; i<pointRepository.findAll().size(); i++) {
+            for (int i = pointRepository.findAll().size()-1; i >= 0; i--) {
                 User user = new User();
                 user.setUserId(pointRepository.findAll().get(i).getUserId().getUserId());
 
@@ -288,7 +287,7 @@ public class ManageController {
             User user = new User();
             user.setUserId(userRepository.findByUserId(userId).getUserId());
 
-            for (int i=0; i<pointRepository.findByUserId(user).size(); i++) {
+            for (int i = pointRepository.findByUserId(user).size()-1; i >= 0; i--) {
                 Point point = new Point();
                 point.setSeq(pointRepository.findByUserId(user).get(i).getSeq());
                 point.setUserId(user);

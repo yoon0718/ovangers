@@ -111,7 +111,7 @@ public class MapController {
         }
     }
 
-    // 지도에서 충전소 마커에서 고장 신고하기
+    // 지도에서 충전소 마커를 통해 고장 신고하기
     @PostMapping("/api/down/{sessionId}")
     public String downReport(
         @PathVariable String sessionId,
