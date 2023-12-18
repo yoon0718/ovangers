@@ -148,6 +148,7 @@ function KakaoMap(props){
           infowindow.setMap(null);
         }
       });
+      kakao.maps.event.addListener(map,"zoom_changed", function(){infowindow.setMap(null);});
 
       markers.push(marker);
     })
