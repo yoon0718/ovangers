@@ -1,0 +1,67 @@
+.setaccount_box{
+    width: auto;
+    height:460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.setaccount_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.setaccount_form{
+    display: flex;
+    flex-direction: column;
+} 
+
+.setaccount_form input{
+    border-radius: 5px;
+    width: 250px;
+    height: 30px;
+    background: transparent;
+    margin-bottom: 10px;
+    margin-top: 3px;
+}
+#sub{
+    margin-top: 10px;
+}
+#sub{
+    width: 250px;
+    height: 35px; 
+    border-radius: 40px;
+    background: rgb(31, 130, 243);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#withdrawal{
+    width: 250px;
+    height: 35px; 
+    border-radius: 40px;
+    background: pink;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#sub:hover{
+    background: rgb(15, 106, 211);
+}
+#withdrawal:hover{
+    background: red;
+}

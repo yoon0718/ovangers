@@ -1,0 +1,61 @@
+.form-box2{
+    position: relative;
+    width: 24.5vw;
+    height: 65vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 2vw;
+}
+
+.find_div,.change_div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40vw;
+    height: 60vh;
+}
+.find_form, .change_form{
+    display: flex;
+    flex-direction: column;
+}
+.find_form input,.change_form input{
+    border-radius: 5px;
+    width: 250px;
+    height: 30px;
+    background: transparent;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.find_btn,.change_btn{
+    width: 250px;
+    height: 40px; 
+    border-radius: 40px;
+    background: rgb(31, 130, 243);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    margin-top: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.find_btn:hover{
+    background: rgb(15, 106, 211);
+}
+
+.find_form > * ,.change_form > *{
+    font-size: 20px;
+}
+.bi.bi-x-lg{
+    position:relative;
+    left: 26.5vw;
+    cursor: pointer;
+}
