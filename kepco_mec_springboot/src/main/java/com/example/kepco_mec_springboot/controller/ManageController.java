@@ -139,9 +139,8 @@ public class ManageController {
         @RequestParam("userId") String userId
         ) {
         if(applyChargeRepository.findByPostNumber(postNumber).get(0).getPostInnerDate() == null){
-            applyChargeRepository.delete(applyChargeRepository.findByPostNumber(postNumber).get(0));
                     
-                    return "충전 요청 취소";
+            return "접수부터 진행해주세요.";
         }else{
             if(applyChargeRepository.findByPostNumber(postNumber).get(0).getBnm().equals(userId)){
                 if(applyChargeRepository.findByPostNumber(postNumber).get(0).getPostEndDate() == null){
